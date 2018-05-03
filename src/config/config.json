@@ -1,0 +1,118 @@
+{
+  "activeEnv": "prod",
+  "dev": {
+    "databaseConnection": {
+      "dbName": "IdentityDB_DEV",
+      "dbUserName": "Mobiliya",
+      "dbUserPassword": "qwert_1234",
+      "dbHost": "mobiliya.database.cloudapi.cn",
+      "dbPort": 80,
+      "dbDialect": "mssql",
+      "dbInstanceName": "SQLEXPRESS"
+    },
+    "auth": {
+      "JWT_ISSUER": "Fleet",
+      "JWT_SECRET_FOR_ACCESS_TOKEN": "XT6PRpRuehFsyMa2",
+      "JWT_SECRET_FOR_REFRESH_TOKEN": "JWPVzFWkqGxoE2C2",
+      "JWT_ACCESS_TOKEN_EXPIRY_SECONDS": 10000,
+      "JWT_GRANT_TYPE_PASSWORD": "password",
+      "JWT_GRANT_TYPE_REFRESH_TOKEN": "refresh_token",
+      "JWT_TOKEN_ALGORITHM_TYPE": "HS256",
+      "JWT_ACCESS_TOKEN_STR": "accessToken"
+    },
+    "redis": {
+      "port": 6380,
+      "host": "mobiliya.redis.cache.cloudapi.cn",
+      "option": {
+        "auth_pass": "Z6W2beVx0oxhLiESjIaKqbN7Rgp83GzNLT+GlGOz9WQ="
+      }
+    }
+  },
+  "qa": {
+    "databaseConnection": {
+      "dbName": "IdentityDB_QA",
+      "dbUserName": "Mobiliya",
+      "dbUserPassword": "qwert_1234",
+      "dbHost": "mobiliya.database.cloudapi.cn",
+      "dbPort": 80,
+      "dbDialect": "mssql",
+      "dbInstanceName": "SQLEXPRESS"
+    },
+    "auth": {
+      "JWT_ISSUER": "Fleet",
+      "JWT_SECRET_FOR_ACCESS_TOKEN": "XT6PRpRuehFsyMa2",
+      "JWT_SECRET_FOR_REFRESH_TOKEN": "JWPVzFWkqGxoE2C2",
+      "JWT_ACCESS_TOKEN_EXPIRY_SECONDS": 10000,
+      "JWT_GRANT_TYPE_PASSWORD": "password",
+      "JWT_GRANT_TYPE_REFRESH_TOKEN": "refresh_token",
+      "JWT_TOKEN_ALGORITHM_TYPE": "HS256",
+      "JWT_ACCESS_TOKEN_STR": "accessToken"
+    },
+    "redis": {
+      "port": 6380,
+      "host": "mobiliya.redis.cache.cloudapi.cn",
+      "option": {
+        "auth_pass": "V5s9qjyF3XHIquxvYVFLDiJHIvdDwYRs3/tzSE0ZQGw="
+      }
+    }
+  },
+  "prod": {
+    "databaseConnection": {
+      "dbName": "identitydb",
+      "dbUserName": "sadmin",
+      "dbUserPassword": "Welcome@1",
+      "dbHost": "msfleetdb.database.windows.net",
+      "dbPort": 80,
+      "dbDialect": "mssql",
+      "dbInstanceName": "SQLEXPRESS"
+    },
+    "auth": {
+      "JWT_ISSUER": "Fleet",
+      "JWT_SECRET_FOR_ACCESS_TOKEN": "XT6PRpRuehFsyMa2",
+      "JWT_SECRET_FOR_REFRESH_TOKEN": "JWPVzFWkqGxoE2C2",
+      "JWT_ACCESS_TOKEN_EXPIRY_SECONDS": 10000,
+      "JWT_GRANT_TYPE_PASSWORD": "password",
+      "JWT_GRANT_TYPE_REFRESH_TOKEN": "refresh_token",
+      "JWT_TOKEN_ALGORITHM_TYPE": "HS256",
+      "JWT_ACCESS_TOKEN_STR": "accessToken"
+    },
+    "redis": {
+      "port": 6379,
+      "host": "MSFleet.redis.cache.windows.net",
+      "option": {
+        "auth_pass": "5zMqOS1x+bDx9gvM5Kajsf3tVERUn72AohI0IA5qIHk="
+      }
+    },
+    "frontendUrl": "https://accelerator-portal.azurewebsites.net",
+    "hostname_fleet": "fleet-service.azurewebsites.net",
+    "port_fleet": "80"
+  },
+  "local": {
+    "databaseConnection": {
+      "dbName": "identitydb",
+      "dbUserName": "sa",
+      "dbUserPassword": "root",
+      "dbHost": "localhost",
+      "dbDialect": "mssql",
+      "dbInstanceName": "SQLEXPRESS"
+    },
+    "auth": {
+      "JWT_ISSUER": "Fleet",
+      "JWT_SECRET_FOR_ACCESS_TOKEN": "XT6PRpRuehFsyMa2",
+      "JWT_SECRET_FOR_REFRESH_TOKEN": "JWPVzFWkqGxoE2C2",
+      "JWT_ACCESS_TOKEN_EXPIRY_SECONDS": 360000,
+      "JWT_GRANT_TYPE_PASSWORD": "password",
+      "JWT_GRANT_TYPE_REFRESH_TOKEN": "refresh_token",
+      "JWT_TOKEN_ALGORITHM_TYPE": "HS256",
+      "JWT_ACCESS_TOKEN_STR": "accessToken"
+    },
+    "frontendUrl": "http://localhost:3301",
+    "hostname_fleet": "127.0.0.1",
+    "port_fleet": "3302",
+    "redis": {
+      "port": 6379,
+      "host": "localhost",
+      "option": {}
+    }
+  }
+}
