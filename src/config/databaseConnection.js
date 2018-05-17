@@ -61,18 +61,18 @@ models.forEach(function (model) {
             return sequelize.transaction(function (t) {
                 var insertObj = {
                     "roleName": "tenant admin",
-                    "privileges": "add trip"
+                    "privileges": "Manage tenant specific fleets and users"
                 };
                 return module.exports['roles'].create(insertObj, { transaction: t }).then(function (result) {
                     var insertObj = {
                         "roleName": "fleet admin",
-                        "privileges": "add trip"
+                        "privileges": "Manage fleet specific vehicles and drivers"
                     };
                     return module.exports['roles'].create(insertObj, { transaction: t }).then(function (result) {
 
                         var insertRoleObj = {
                             "roleName": "driver",
-                            "privileges": "add trip"
+                            "privileges": "Create trip"
                         };
                         return module.exports['roles'].create(insertRoleObj, { transaction: t })
                     });
@@ -80,7 +80,7 @@ models.forEach(function (model) {
 
 
             }).then(function (result) {
-                console.log(" Roles created:");
+                logger.info("Roles created:");
 
             }).catch(function (err) {
                 logger.error("Error in role creation");
@@ -96,7 +96,7 @@ models.forEach(function (model) {
             return sequelize.transaction(function (t) {
                 var insertObj = {
                     "roleName": "super admin",
-                    "privileges": "add trip"
+                    "privileges": "Manage users"
                 };
                 return module.exports['roles'].create(insertObj, { transaction: t }).then(function (result) {
                     var insertObj = {
@@ -119,7 +119,7 @@ models.forEach(function (model) {
 
                 });
             }).then(function (result) {
-                console.log("Super Admin Created userId:", result.id);
+                logger.info("Super Admin Created userId:", result.id);
 
             }).catch(function (err) {
                 logger.error("Error in Superadmin Creation,Record already exist");
@@ -127,6 +127,7 @@ models.forEach(function (model) {
             });
         });
     }
+
 
 });
 

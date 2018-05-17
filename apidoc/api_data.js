@@ -430,7 +430,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example usage:",
-        "content": "curl -i -X POST  --data '{ \"roleName\": \"Super Admin\", \"privileges\": \"Add trip\"}' http://<ip>:<port>/roles\n-H \"Authorization:<access-token>\" -H \"Content-Type: application/json\"",
+        "content": "curl -i -X POST  --data '{ \"roleName\": \"Super Admin\", \"privileges\": \"Manage users\"}' http://<ip>:<port>/roles\n-H \"Authorization:<access-token>\" -H \"Content-Type: application/json\"",
         "type": "json"
       }
     ],
@@ -469,7 +469,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Request-Example:",
-          "content": " {\n\t\t\"roleName\": \"Super Admin\",\n\t\t\"privileges\": \"Add trip\"  \n }",
+          "content": " {\n\t\t\"roleName\": \"Super Admin\",\n\t\t\"privileges\": \"Manage users\"  \n }",
           "type": "json"
         }
       ]
@@ -478,7 +478,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "    HTTP/1.1 201 CREATED\n\t\t{\n    \"message\": \"Success\",\n    \"data\": {\n        \"id\": \"935ba91b-d26d-49c0-8dc0-98556ea2cb2a\",\n        \"roleName\": \"Super Admin\",\n        \"privileges\": \"Add trip\"\n    }\n}",
+          "content": "    HTTP/1.1 201 CREATED\n\t\t{\n    \"message\": \"Success\",\n    \"data\": {\n        \"id\": \"935ba91b-d26d-49c0-8dc0-98556ea2cb2a\",\n        \"roleName\": \"Super Admin\",\n        \"privileges\": \"Manage users\"\n    }\n}",
           "type": "json"
         }
       ]
@@ -661,7 +661,7 @@ define({ "api": [
       "examples": [
         {
           "title": "(json) Success-Response:",
-          "content": "  HTTP/1.1 200 OK\n {\n    \"message\": \"Success\",\n    \"data\": \n        {\n            \"id\": \"bd39049f-5e2a-4904-9571-68accae08aff\",\n            \"roleName\": \"Super Admin\",\n            \"privileges\": \"Add trip,Edit Trip,Delete trip\"\n        }\n    \n}",
+          "content": "  HTTP/1.1 200 OK\n {\n    \"message\": \"Success\",\n    \"data\": \n        {\n            \"id\": \"bd39049f-5e2a-4904-9571-68accae08aff\",\n            \"roleName\": \"Super Admin\",\n            \"privileges\": \"Manage users\"\n        }\n    \n}",
           "type": "json"
         }
       ]
@@ -785,7 +785,7 @@ define({ "api": [
       "examples": [
         {
           "title": "(json) Success-Response:",
-          "content": "  HTTP/1.1 200 OK\n     {\n         \"message\": \"Success\",\n         \"count\": 2,\n    \t \"data\": [\n      {\n          \"id\": \"2d9fbfbf-194c-4316-85e9-97561dea5162\",\n          \"roleName\": \"Super Admin\",\n          \"privileges\": \"Add trip\"\n      },\n      {\n          \"id\": \"75bf7fb2-56a2-45e4-a1c7-7114fd20f311\",\n          \"roleName\": \"Tenant Admin\",\n          \"privileges\": \"Add trip\"\n      },\n      {\n          \"id\": \"966b70d1-7879-4473-afa8-eb956ada7b82\",\n          \"roleName\": \"Fleet Admin\",\n          \"privileges\": \"Add trip\"\n      },\n      {\n          \"id\": \"9da7fee9-b08b-4504-895e-834013cd11ee\",\n          \"roleName\": \"Driver\",\n          \"privileges\": \"Add trip\"\n      }\n  ]\n}",
+          "content": "  HTTP/1.1 200 OK\n     {\n         \"message\": \"Success\",\n         \"count\": 2,\n    \t \"data\": [\n      {\n          \"id\": \"2d9fbfbf-194c-4316-85e9-97561dea5162\",\n          \"roleName\": \"Super Admin\",\n          \"privileges\": \"Manage users\"\n      },\n      {\n          \"id\": \"75bf7fb2-56a2-45e4-a1c7-7114fd20f311\",\n          \"roleName\": \"Tenant Admin\",\n          \"privileges\": \"Manage tenant specific fleets and users\"\n      },\n      {\n          \"id\": \"966b70d1-7879-4473-afa8-eb956ada7b82\",\n          \"roleName\": \"Fleet Admin\",\n          \"privileges\": \"Manage fleet specific vehicles and drivers\"\n      },\n      {\n          \"id\": \"9da7fee9-b08b-4504-895e-834013cd11ee\",\n          \"roleName\": \"Driver\",\n          \"privileges\": \"Create trip\"\n      }\n  ]\n}",
           "type": "json"
         }
       ]
@@ -850,7 +850,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Example usage:",
-        "content": "curl -i -X PUT  --data '{\"roleName\":\"Tenant Admin\",\"privileges\": \"Add trip,Edit Trip,Delete trip\"}' http://<ip>:<port>/roles/bd39049f-5e2a-4904-9571-68accae08aff\n-H \"Authorization:<access-token>\" -H \"Content-Type: application/json\"",
+        "content": "curl -i -X PUT  --data '{\"roleName\":\"Tenant Admin\",\"privileges\": \"Manage users\"}' http://<ip>:<port>/roles/bd39049f-5e2a-4904-9571-68accae08aff\n-H \"Authorization:<access-token>\" -H \"Content-Type: application/json\"",
         "type": "json"
       }
     ],
@@ -889,7 +889,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Request-Example:",
-          "content": "\t{\n\t\t\"roleName\": \"Tenant Admin\",\n \t\t\"privileges\": \"Add trip,Edit Trip,Delete trip\"\n\n\t}",
+          "content": "\t{\n\t\t\"roleName\": \"Tenant Admin\",\n \t\t\"privileges\": \"Manage users\"\n\n\t}",
           "type": "json"
         }
       ]
@@ -898,7 +898,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "    HTTP/1.1 200 OK\n\t\t{\n      \"message\": \"Success\",\n      \"data\": \n          {\n              \"id\": \"bd39049f-5e2a-4904-9571-68accae08aff\",\n              \"roleName\": \"Super Admin\",\n              \"privileges\": \"Add trip,Edit Trip,Delete trip\"\n          }\n      \n  }",
+          "content": "    HTTP/1.1 200 OK\n\t\t{\n      \"message\": \"Success\",\n      \"data\": \n          {\n              \"id\": \"bd39049f-5e2a-4904-9571-68accae08aff\",\n              \"roleName\": \"Super Admin\",\n              \"privileges\": \"Manage users\"\n          }\n      \n  }",
           "type": "json"
         }
       ]

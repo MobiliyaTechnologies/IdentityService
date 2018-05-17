@@ -13,7 +13,7 @@ var service = require('../src/service/role-service');
 var util = require('../src/util/commonUtil');
 var responseConstant = require('../src/constant/responseConstant');
 var logger = require('../src/util/logger');
-var constants=require('../src/constant/constants');
+var constants = require('../src/constant/constants');
 var oauth = require('../src/config/authentication');
 
 // Create Role API
@@ -26,7 +26,7 @@ var oauth = require('../src/config/authentication');
  * @apiDescription Create a Role
  *
  * @apiExample Example usage:
- * curl -i -X POST  --data '{ "roleName": "Super Admin", "privileges": "Add trip"}' http://<ip>:<port>/roles
+ * curl -i -X POST  --data '{ "roleName": "Super Admin", "privileges": "Manage users"}' http://<ip>:<port>/roles
  * -H "Authorization:<access-token>" -H "Content-Type: application/json"
  *
  * @apiHeader {String} Authorization Authorization token.
@@ -37,7 +37,7 @@ var oauth = require('../src/config/authentication');
  * @apiParamExample {json} Request-Example:
  *  {
  *		"roleName": "Super Admin",
- *		"privileges": "Add trip"  
+ *		"privileges": "Manage users"  
  *  }
  *
  * @apiSuccessExample Success-Response:
@@ -47,7 +47,7 @@ var oauth = require('../src/config/authentication');
     "data": {
         "id": "935ba91b-d26d-49c0-8dc0-98556ea2cb2a",
         "roleName": "Super Admin",
-        "privileges": "Add trip"
+        "privileges": "Manage users"
     }
 }
  *
@@ -81,7 +81,7 @@ var oauth = require('../src/config/authentication');
  *
  */
 /* CREATE ROLE. */
-router.post('/',oauth.isRolesApiAuthenticate, function (req, res) {
+router.post('/', oauth.isRolesApiAuthenticate, function (req, res) {
     if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
         var err = util.responseUtil(errors, null, responseConstant.EMPTY_REQUEST_BODY_ERROR);
         res.status(HttpStatus.BAD_REQUEST).send(err);
@@ -112,7 +112,7 @@ router.post('/',oauth.isRolesApiAuthenticate, function (req, res) {
  * @apiDescription Update Role.
  *
  * @apiExample Example usage:
- * curl -i -X PUT  --data '{"roleName":"Tenant Admin","privileges": "Add trip,Edit Trip,Delete trip"}' http://<ip>:<port>/roles/bd39049f-5e2a-4904-9571-68accae08aff
+ * curl -i -X PUT  --data '{"roleName":"Tenant Admin","privileges": "Manage users"}' http://<ip>:<port>/roles/bd39049f-5e2a-4904-9571-68accae08aff
  * -H "Authorization:<access-token>" -H "Content-Type: application/json"
  * 
  * @apiHeader {String} Authorization Authorization token.
@@ -123,7 +123,7 @@ router.post('/',oauth.isRolesApiAuthenticate, function (req, res) {
  * @apiParamExample {json} Request-Example:
  *	{
  *		"roleName": "Tenant Admin",
- 		"privileges": "Add trip,Edit Trip,Delete trip"
+ 		"privileges": "Manage users"
  *
  *	}
  *
@@ -135,7 +135,7 @@ router.post('/',oauth.isRolesApiAuthenticate, function (req, res) {
  *           {
  *               "id": "bd39049f-5e2a-4904-9571-68accae08aff",
  *               "roleName": "Super Admin",
- *               "privileges": "Add trip,Edit Trip,Delete trip"
+ *               "privileges": "Manage users"
  *           }
  *       
  *   }
@@ -167,7 +167,7 @@ router.post('/',oauth.isRolesApiAuthenticate, function (req, res) {
  * @apiSampleRequest http://localhost:3301/roles/bd39049f-5e2a-4904-9571-68accae08aff
  */
 /* PUT update role. */
-router.put('/:id', oauth.isRolesApiAuthenticate,function (req, res) {
+router.put('/:id', oauth.isRolesApiAuthenticate, function (req, res) {
     if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
         var err = util.responseUtil(errors, null, responseConstant.EMPTY_REQUEST_BODY_ERROR);
         res.status(HttpStatus.BAD_REQUEST).send(err);
@@ -209,7 +209,7 @@ router.put('/:id', oauth.isRolesApiAuthenticate,function (req, res) {
  *           {
  *               "id": "bd39049f-5e2a-4904-9571-68accae08aff",
  *               "roleName": "Super Admin",
- *               "privileges": "Add trip,Edit Trip,Delete trip"
+ *               "privileges": "Manage users"
  *           }
  *       
  *   }
@@ -244,7 +244,7 @@ router.put('/:id', oauth.isRolesApiAuthenticate,function (req, res) {
  *
  */
 /* GET role by id */
-router.get('/:id', oauth.isAuthenticate,function (req, res) {
+router.get('/:id', oauth.isAuthenticate, function (req, res) {
     req.checkParams('id', 'Invalid role id').notEmpty();
     var errors = req.validationErrors(true);
     if (errors) {
@@ -287,22 +287,22 @@ router.get('/:id', oauth.isAuthenticate,function (req, res) {
         {
             "id": "2d9fbfbf-194c-4316-85e9-97561dea5162",
             "roleName": "Super Admin",
-            "privileges": "Add trip"
+            "privileges": "Manage users"
         },
         {
             "id": "75bf7fb2-56a2-45e4-a1c7-7114fd20f311",
             "roleName": "Tenant Admin",
-            "privileges": "Add trip"
+            "privileges": "Manage tenant specific fleets and users"
         },
         {
             "id": "966b70d1-7879-4473-afa8-eb956ada7b82",
             "roleName": "Fleet Admin",
-            "privileges": "Add trip"
+            "privileges": "Manage fleet specific vehicles and drivers"
         },
         {
             "id": "9da7fee9-b08b-4504-895e-834013cd11ee",
             "roleName": "Driver",
-            "privileges": "Add trip"
+            "privileges": "Create trip"
         }
     ]
  *   }
@@ -336,7 +336,7 @@ router.get('/:id', oauth.isAuthenticate,function (req, res) {
  * @apiSampleRequest http://localhost:3301/roles
  */
 /* GET All Roles */
-router.get('/',oauth.isAuthenticate, function (req, res) {
+router.get('/', oauth.isAuthenticate, function (req, res) {
     req.checkQuery('limit', 'Invalid').optional().isInt();
     req.checkQuery('page', 'Invalid').optional().isInt();
     req.checkQuery('sort', 'Invalid').optional().isIn(constants.rolesSortConstants);
@@ -403,7 +403,7 @@ router.get('/',oauth.isAuthenticate, function (req, res) {
  *
  */
 /* DELETE Role. */
-router.delete('/:id',oauth.isRolesApiAuthenticate, function (req, res) {
+router.delete('/:id', oauth.isRolesApiAuthenticate, function (req, res) {
     req.checkParams('id', 'Invalid role id').notEmpty();
     var errors = req.validationErrors(true);
     if (errors) {

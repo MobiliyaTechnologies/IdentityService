@@ -39,9 +39,6 @@ app.use(cors());
 app.use(expressValidator());
 
 
-
-app.use(express.static(path.join(__dirname, 'apidoc')));
-
 /**
   *  Documentation api gateway
   */
@@ -54,7 +51,7 @@ app.use('/docs/authenticated', function (req, res, next) {
     if (req.body.username == "admin" && req.body.password == "fleet@123") {
 
         let a = path.join(__dirname, 'apidoc/index.html');
-       
+
 
         fs.readFile(a, function (error, data) {
             if (error) {
@@ -83,7 +80,7 @@ app.use('/docs', express.static(path.join(__dirname, 'apidoc')));
 
 // base interface
 app.get('/', function (req, res, next) {
-    res.end('welcome to Fleet Managaement...!');
+    res.end('Identity service is now running.');
 });
 app.use('/', routes);
 app.use('/roles', roles);
