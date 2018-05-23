@@ -133,10 +133,10 @@ module.exports = {
                 if (result) {
                     var randomPassword = util.generateRandomPassword();
                     var reqObj = { password: util.encryptPassword(randomPassword) };
-                    var link = appUrl + '?token=' + randomPassword + '&email=' + req.body.email;
+                    var link = 'https://'+ appUrl + '?token=' + randomPassword + '&email=' + req.body.email;
                     userDao.updateData(reqObj, { email: req.body.email }).then(function (result) {
-                        var msg = "Hi " + ",<br><br> Please click the below link to set new password and sign in. <br><br><a href='" + link + "'>" + link + "</a><br><br>Please get in touch with our support team for any queries at admin.support@microsoft.com <br><br>We are sending this mail as you are registered with microsoft system.";
-                        util.sendMail(req.body.email, "Microsoft System - Set password", msg, function (err, success) {
+                        var msg = "Hi " + ",<br><br> Please click the below link to set new password and sign in. <br><br><a href='" + link + "'>" + link + "</a><br><br>Please get in touch with our support team for any queries at admin.support@mobiliya.com <br><br>We are sending this mail as you are registered with mobiliya system.";
+                        util.sendMail(req.body.email, "Mobiliya System - Set password", msg, function (err, success) {
                             if (err) {
                                 return resolve(util.responseUtil(err, null, responseConstant.UNABLE_TO_SEND_EMAIL));
                             } else

@@ -46,9 +46,9 @@ module.exports = {
                     var areEqual = constants.tenantRole.toUpperCase() === result.roleName.toUpperCase();
                     if (areEqual) {
                         tenantDao.createUserAndTenant(insertObj).then(function (result) {
-                            var link = appUrl + '?token=' + 'welcome' + '&email=' + req.body.email;
-                            var msg = "Hi " + result.firstName + ",<br><br> We are glad to inform you that Microsoft Super Admin has created your microsoft account. <br>To begin exploring the web portal please click the link below to set password and sign in. <br><br><a>" + link + "</a><br><br>Please get in touch with our support team for any queries at admin.support@microsoft.com <br><br>We are sending this mail as you are registered with microsoft system.";
-                            util.sendMail(req.body.email, "Microsoft System - Set password", msg, function (err, success) {
+                            var link =  'https://'+ appUrl + '?token=' + 'welcome' + '&email=' + req.body.email;
+                            var msg = "Hi " + result.firstName + ",<br><br> We are glad to inform you that Super Admin has created your account. <br>To begin exploring the web portal please click the link below to set password and sign in. <br><br><a>" + link + "</a><br><br>Please get in touch with our support team for any queries at admin.support@mobiliya.com <br><br>We are sending this mail as you are registered with mobiliya system.";
+                            util.sendMail(req.body.email, "Mobiliya System - Set password", msg, function (err, success) {
                             })
                             return resolve(util.responseUtil(null, result, responseConstant.SUCCESS));
                         }, function (err) {
