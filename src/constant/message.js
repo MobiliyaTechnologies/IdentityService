@@ -36,7 +36,7 @@ err_obj[constants.RUN_TIME_ERROR] = "Runtime error";
 err_obj[constants.NO_RECORD_DELETED] = "No record deleted";
 err_obj[constants.WRONG_PASSWORD] = "Password is wrong";
 err_obj[constants.ACCESS_DENIED] = "Access Denied";
-err_obj[constants.DUPLICATION_ERROR] = "Record already exist.";
+err_obj[constants.DUPLICATION_ERROR] = "User already exist.";
 err_obj[constants.RECORD_NOT_FOUND] = "Record not found";
 err_obj[constants.REQUEST_SENT_ALREADY] = "You already sent the request.";
 err_obj[constants.DEVELOPER_COUNT_EXCEEDS] = "Developer count exceeded.";
@@ -65,7 +65,7 @@ err_obj[constants.IPC_CONNECTION_ERROR] = "Error in IPC Connection";
 err_obj[constants.INVALID_VEHICLE] = "Invalid vehicleId";
 err_obj[constants.FLEET_NOT_FOUND] = "FleetId not found"
 err_obj[constants.INVALID_TOKEN] = "Invalid authorization token";
-err_obj[constants.ERROR_IN_DELETION] = "Error in deletion";
+err_obj[constants.ERROR_IN_DELETION] = "Unable to delete user";
 /**
  * function for get message from error code
  */

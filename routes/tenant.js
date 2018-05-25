@@ -113,9 +113,10 @@ router.post('/', function (req, res) {
     req.checkBody('email', 'Email can not be empty').notEmpty();
     req.checkBody('email', 'Invalid Email').isEmail();
     req.checkBody('firstName', 'FirstName can not be empty.').notEmpty();
-    req.checkBody('firstName', 'Invalid FirstName.').isLength(3, 20);
-    req.checkBody('lastName', 'LastName can not be empty.').notEmpty();
-    req.checkBody('lastName', 'Invalid LastName.').isLength(3, 20);
+    req.checkBody('firstName', 'Invalid FirstName.').isLength(3, 100);
+    if (!empty(req.body.lastame)) {
+        req.checkBody('lastName', 'Invalid LastName.').isLength(3, 100);
+    }
     req.checkBody('roleId', 'RoleId can not be empty').notEmpty();
     req.checkBody('roleId', 'Invalid RoleId').isUUID();
 
@@ -228,10 +229,10 @@ router.put('/:id', function (req, res) {
         req.checkBody('mobileNumber', 'Invalid mobile number.').isInt().isLength({ min: 10, max: 10 });
     }
     if (!empty(req.body.firstName)) {
-        req.checkBody('firstName', 'Invalid FirstName.').isLength(3, 20);
+        req.checkBody('firstName', 'Invalid FirstName.').isLength(3, 100);
     }
     if (!empty(req.body.lastame)) {
-        req.checkBody('lastName', 'Invalid LastName.').isLength(3, 20);
+        req.checkBody('lastName', 'Invalid LastName.').isLength(3, 100);
     }
 
     var errors = req.validationErrors(true);
