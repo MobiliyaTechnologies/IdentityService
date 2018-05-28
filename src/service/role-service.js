@@ -10,12 +10,10 @@
  *  import project modules
  */
 
-var _ = require('underscore');
+
 var roleDao = require('../dao/role-dao');
 var util = require('../util/commonUtil');
 var responseConstant = require('../constant/responseConstant');
-var logger = require('../util/logger');
-var constants = require('../constant/constants');
 
 /**
   * export module

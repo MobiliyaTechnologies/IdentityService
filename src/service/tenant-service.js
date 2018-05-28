@@ -11,8 +11,8 @@
 /**
  *  import project modules
  */
-var _ = require('underscore');
-var util = require('../util/commonUtil');
+
+
 var authConfig = require('../config/config.json');
 var appUrl = authConfig[authConfig.activeEnv].frontendUrl + "/reset-password"
 var util = require('../util/commonUtil');
@@ -22,7 +22,6 @@ var constants = require('../constant/constants');
 var userDao = require('../dao/user-dao');
 var roleDao = require('../dao/role-dao');
 var empty = require('is-empty');
-var request = require('request');
 var JWT = require('jsonwebtoken');
 var config = require('../config/config.json');
 var jwtKey = config[config.activeEnv].auth;
@@ -46,7 +45,7 @@ module.exports = {
                     var areEqual = constants.tenantRole.toUpperCase() === result.roleName.toUpperCase();
                     if (areEqual) {
                         tenantDao.createUserAndTenant(insertObj).then(function (result) {
-                            var link =  'https://'+ appUrl + '?token=' + 'welcome' + '&email=' + req.body.email;
+                            var link = 'https://' + appUrl + '?token=' + 'welcome' + '&email=' + req.body.email;
                             var msg = "Hi " + result.firstName + ",<br><br> We are glad to inform you that Super Admin has created your account. <br>To begin exploring the web portal please click the link below to set password and sign in. <br><br><a>" + link + "</a><br><br>Please get in touch with our support team for any queries at admin.support@mobiliya.com <br><br>We are sending this mail as you are registered with mobiliya system.";
                             util.sendMail(req.body.email, "Mobiliya System - Set password", msg, function (err, success) {
                             })
@@ -118,7 +117,7 @@ module.exports = {
                 });
             });
         }, function (err) {
-            return reject(util.responseUtil(err, null, responseConstant.RECORD_NOT_FOUND));
+            return reject(util.responseUtil(err, null, responseConstant.TENANT_NOT_FOUND));
         });
     },
 
@@ -154,7 +153,6 @@ module.exports = {
 
                 //delete req.query.page;
             }
-            addCriteria.tenantCompanyName = { $ne: "root" };
             addCriteria.isDeleted = 0;
             tenantDao.getAllTenant(addCriteria, page, limit, sort, order).then(function (result) {
                 return resolve(util.responseUtil(null, result, responseConstant.SUCCESS));

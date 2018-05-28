@@ -12,7 +12,6 @@ var router = express.Router();
 var service = require('../src/service/role-service');
 var util = require('../src/util/commonUtil');
 var responseConstant = require('../src/constant/responseConstant');
-var logger = require('../src/util/logger');
 var constants = require('../src/constant/constants');
 var oauth = require('../src/config/authentication');
 
@@ -172,7 +171,8 @@ router.put('/:id', oauth.isRolesApiAuthenticate, function (req, res) {
         var err = util.responseUtil(errors, null, responseConstant.EMPTY_REQUEST_BODY_ERROR);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     }
-    req.checkParams('id', 'Invalid role id').notEmpty();
+    req.checkParams('id', 'RoleId can not be empty').notEmpty();
+    req.checkParams('id', 'Invalid roleId').isUUID();
     var errors = req.validationErrors(true);
     if (errors) {
         var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
@@ -245,7 +245,8 @@ router.put('/:id', oauth.isRolesApiAuthenticate, function (req, res) {
  */
 /* GET role by id */
 router.get('/:id', oauth.isAuthenticate, function (req, res) {
-    req.checkParams('id', 'Invalid role id').notEmpty();
+    req.checkParams('id', 'RoleId can not be empty').notEmpty();
+    req.checkParams('id', 'Invalid roleId').isUUID();
     var errors = req.validationErrors(true);
     if (errors) {
         var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
@@ -337,10 +338,10 @@ router.get('/:id', oauth.isAuthenticate, function (req, res) {
  */
 /* GET All Roles */
 router.get('/', oauth.isAuthenticate, function (req, res) {
-    req.checkQuery('limit', 'Invalid').optional().isInt();
-    req.checkQuery('page', 'Invalid').optional().isInt();
-    req.checkQuery('sort', 'Invalid').optional().isIn(constants.rolesSortConstants);
-    req.checkQuery('order', 'Invalid').optional().isIn(constants.orderConstants);
+    req.checkQuery('limit', 'Invalid limit parameter').optional().isInt();
+    req.checkQuery('page', 'Invalid page parameter').optional().isInt();
+    req.checkQuery('sort', 'Invalid sort parameter').optional().isIn(constants.rolesSortConstants);
+    req.checkQuery('order', 'Invalid order parameter').optional().isIn(constants.orderConstants);
     var errors = req.validationErrors(true);
     if (errors) {
         var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
@@ -404,7 +405,8 @@ router.get('/', oauth.isAuthenticate, function (req, res) {
  */
 /* DELETE Role. */
 router.delete('/:id', oauth.isRolesApiAuthenticate, function (req, res) {
-    req.checkParams('id', 'Invalid role id').notEmpty();
+    req.checkParams('id', 'RoleId can not be empty').notEmpty();
+    req.checkParams('id', 'Invalid roleId').isUUID();
     var errors = req.validationErrors(true);
     if (errors) {
         var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);

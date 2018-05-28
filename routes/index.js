@@ -12,7 +12,6 @@ var HttpStatus = require('http-status-codes');
 var router = express.Router();
 var oauth = require('../src/config/authentication');
 var service = require('../src/service/auth-service');
-var logger = require('../src/util/logger');
 var util = require('../src/util/commonUtil');
 var responseConstant = require('../src/constant/responseConstant');
 
@@ -105,7 +104,7 @@ router.get('/healthcheck', require('express-healthcheck')({
 
 router.post('/login', function (req, res) {
     req.checkBody('email', 'Email can not be empty').isEmail();
-    req.checkBody('email', 'Invalid Email').notEmpty();
+    req.checkBody('email', 'Invalid email parameter').notEmpty();
     req.checkBody('password', 'Password can not be empty').notEmpty();
     var errors = req.validationErrors(true);
     if (errors || req.body.email && typeof req.body.email !== 'string') {
@@ -310,7 +309,7 @@ router.put('/reset-password', function (req, res) {
  * @apiSampleRequest http://localhost:3301/forgot-password */
 router.post('/forgot-password', function (req, res) {
     req.checkBody('email', 'Email can not be empty').notEmpty();
-    req.checkBody('email', 'invalid email').isEmail();
+    req.checkBody('email', 'Invalid email').isEmail();
     var errors = req.validationErrors(true);
     if (errors) {
         res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS));

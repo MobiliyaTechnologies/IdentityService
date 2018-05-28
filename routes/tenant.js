@@ -12,7 +12,6 @@ var service = require('../src/service/tenant-service');
 var util = require('../src/util/commonUtil');
 var responseConstant = require('../src/constant/responseConstant');
 var constants = require('../src/constant/constants');
-var logger = require('../src/util/logger');
 var empty = require('is-empty');
 
 
@@ -111,17 +110,17 @@ router.post('/', function (req, res) {
     req.sanitizeBody('mobileNumber').trim();
 
     req.checkBody('email', 'Email can not be empty').notEmpty();
-    req.checkBody('email', 'Invalid Email').isEmail();
-    req.checkBody('firstName', 'FirstName can not be empty.').notEmpty();
-    req.checkBody('firstName', 'Invalid FirstName.').isLength(3, 100);
+    req.checkBody('email', 'Invalid email parameter').isEmail();
+    req.checkBody('firstName', 'FirstName can not be empty').notEmpty();
+    req.checkBody('firstName', 'Invalid firstName parameter').isLength(3, 100);
     if (!empty(req.body.lastame)) {
-        req.checkBody('lastName', 'Invalid LastName.').isLength(3, 100);
+        req.checkBody('lastName', 'Invalid lastName parameter').isLength(3, 100);
     }
     req.checkBody('roleId', 'RoleId can not be empty').notEmpty();
-    req.checkBody('roleId', 'Invalid RoleId').isUUID();
+    req.checkBody('roleId', 'Invalid RoleId parameter').isUUID();
 
     req.checkBody('mobileNumber', 'MobileNumber can not be empty').notEmpty();
-    req.checkBody('mobileNumber', 'Invalid mobile number.').isInt().isLength({ min: 10, max: 10 });
+    req.checkBody('mobileNumber', 'Invalid mobile number parameter').isInt().isLength({ min: 10, max: 15 });
     req.checkBody('tenantCompanyName', 'TenantCompanyName can not be empty').notEmpty();
 
     var errors = req.validationErrors(true);
@@ -224,15 +223,15 @@ router.put('/:id', function (req, res) {
         res.status(HttpStatus.BAD_REQUEST).send(err);
     }
     req.checkParams('id', 'Tenant id can not be empty').notEmpty();
-    req.checkParams('id', 'Invalid Tenant id ').isUUID();
+    req.checkParams('id', 'Invalid tenantId ').isUUID();
     if (!empty(req.body.mobileNumber)) {
-        req.checkBody('mobileNumber', 'Invalid mobile number.').isInt().isLength({ min: 10, max: 10 });
+        req.checkBody('mobileNumber', 'Invalid mobile number parameter').isInt().isLength({ min: 10, max: 10 });
     }
     if (!empty(req.body.firstName)) {
-        req.checkBody('firstName', 'Invalid FirstName.').isLength(3, 100);
+        req.checkBody('firstName', 'Invalid firstName parameter').isLength(3, 100);
     }
     if (!empty(req.body.lastame)) {
-        req.checkBody('lastName', 'Invalid LastName.').isLength(3, 100);
+        req.checkBody('lastName', 'Invalid lastName parameter').isLength(3, 100);
     }
 
     var errors = req.validationErrors(true);
@@ -318,7 +317,7 @@ router.put('/:id', function (req, res) {
  */
 router.get('/:id', function (req, res) {
     req.checkParams('id', 'Tenant Id can not be empty').notEmpty();
-    req.checkParams('id', 'Invalid TenantId').isUUID();
+    req.checkParams('id', 'Invalid tenantId').isUUID();
     var errors = req.validationErrors(true);
     if (errors) {
         var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
@@ -403,10 +402,10 @@ router.get('/:id', function (req, res) {
  *
  */
 router.get('/', function (req, res) {
-    req.checkQuery('limit', 'Invalid').optional().isInt();
-    req.checkQuery('page', 'Invalid').optional().isInt();
-    req.checkQuery('sort', 'Invalid').optional().isIn(constants.tenantsSortConstants);
-    req.checkQuery('order', 'Invalid').optional().isIn(constants.orderConstants);
+    req.checkQuery('limit', 'Invalid limit parameter').optional().isInt();
+    req.checkQuery('page', 'Invalid page parameter').optional().isInt();
+    req.checkQuery('sort', 'Invalid sort parameter').optional().isIn(constants.tenantsSortConstants);
+    req.checkQuery('order', 'Invalid order parameter').optional().isIn(constants.orderConstants);
     var errors = req.validationErrors(true);
     if (errors) {
         var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
@@ -469,7 +468,8 @@ router.get('/', function (req, res) {
  *
  */
 router.delete('/:id', function (req, res) {
-    req.checkParams('id', 'Invalid role id').notEmpty();
+    req.checkParams('id', 'Invalid tenantId').notEmpty();
+    req.checkParams('id', 'Invalid tenantId').isUUID();
     var errors = req.validationErrors(true);
     if (errors) {
         var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);

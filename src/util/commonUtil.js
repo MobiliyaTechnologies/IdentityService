@@ -9,7 +9,6 @@ var randStr = require('randomstring');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var https = require('http');
-var constant = require("../constant/constants");
 const secret = 'm@b1l1y@';
 
 /**
@@ -125,7 +124,6 @@ module.exports = {
         //end the request
         getReq.end();
     getReq.on('error', function (err) {
-        //console.log("Error: ", err);
         return callback(err);
     });
 },

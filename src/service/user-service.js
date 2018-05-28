@@ -9,13 +9,10 @@
  *  @version 1.0.0
  */
 
-var _ = require('underscore');
-var util = require('../util/commonUtil');
 var authConfig = require('../config/config.json');
 var appUrl = authConfig[authConfig.activeEnv].frontendUrl + "/reset-password"
 var userDao = require('../dao/user-dao');
 var tenantDao = require('../dao/tenant-dao');
-var tennatService = require('../service/tenant-service');
 var responseConstant = require("../constant/responseConstant");
 var roleDao = require('../dao/role-dao');
 var constants = require('../constant/constants');
@@ -281,8 +278,6 @@ module.exports = {
                     userDao.insertData(insertObj).then(function (result) {
 
                         tenantDao.getTenant({ id: result.tenantId, isDeleted: 0 }).then(function (tenantResult) {
-                            console.log("tenant resukt::", tenantResult.dataValues.tenantCompanyName);
-
                             var link = 'https://' + appUrl + '?token=' + 'welcome' + '&email=' + req.body.email;
                             var msg = "Hi " + result.firstName + ",<br><br> We are glad to inform you that " + tenantResult.dataValues.tenantCompanyName + " has created your account. <br>To begin exploring the web portal please click the link below to set password and sign in. <br><br><a>" + link + "</a><br><br>Please get in touch with our support team for any queries at admin.support@" + tenantResult.dataValues.tenantCompanyName + ".com  <br><br>We are sending this mail as you are registered with " + tenantResult.dataValues.tenantCompanyName + " system.";
                             util.sendMail(req.body.email, "Mobiliya System - Set password", msg, function (err, success) {

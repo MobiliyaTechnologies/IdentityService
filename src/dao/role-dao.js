@@ -6,8 +6,6 @@
  *  @version 1.0.0
  */
 
-
-
 /**
  *  import project modules
  */
@@ -63,7 +61,7 @@ module.exports = {
                         });
                     else
                         return reject(
-                            util.responseUtil(null, result, responseConstant.RECORD_NOT_FOUND)
+                            util.responseUtil(null, result, responseConstant.ROLE_NOT_FOUND)
                         );
                 },
                 function (err) {
@@ -96,7 +94,7 @@ module.exports = {
                         return resolve(result);
                     } else {
                         return reject(
-                            util.responseUtil(null, null, responseConstant.RECORD_NOT_FOUND)
+                            util.responseUtil(null, null, responseConstant.ROLE_NOT_FOUND)
                         );
                     }
                 },
@@ -159,7 +157,7 @@ module.exports = {
                     }
                     else {
                         return reject(
-                            util.responseUtil(null, result, responseConstant.RECORD_NOT_FOUND)
+                            util.responseUtil(null, result, responseConstant.ROLE_NOT_FOUND)
                         );
                     }
                 },

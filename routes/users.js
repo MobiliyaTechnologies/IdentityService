@@ -123,21 +123,21 @@ router.post('/', function (req, res) {
     req.sanitizeBody('mobileNumber').trim();
 
     req.checkBody('email', 'Email can not be empty').notEmpty();
-    req.checkBody('email', 'Invalid Email').isEmail();
-    req.checkBody('firstName', 'FirstName can not be empty.').notEmpty();
-    req.checkBody('firstName', 'Invalid FirstName.').isLength(3, 100);
+    req.checkBody('email', 'Invalid email parameter').isEmail();
+    req.checkBody('firstName', 'FirstName can not be empty').notEmpty();
+    req.checkBody('firstName', 'Invalid firstName parameter').isLength(3, 100);
     if (!empty(req.body.lastame)) {
-        req.checkBody('lastName', 'Invalid LastName.').isLength(3, 100);
+        req.checkBody('lastName', 'Invalid lastName parameter').isLength(3, 100);
     }
     req.checkBody('roleId', 'RoleId can not be empty').notEmpty();
-    req.checkBody('roleId', 'Invalid RoleId').isUUID();
+    req.checkBody('roleId', 'Invalid roleId parameter').isUUID();
     if (!empty(req.body.fleetId)) {
-        req.checkBody('fleetId', 'Invalid FleetId').isUUID()
+        req.checkBody('fleetId', 'Invalid fleetId parameter').isUUID()
     }
     req.checkBody('tenantId', 'TenantId can not be empty').notEmpty();
-    req.checkBody('tenantId', 'Invalid TenantId').isUUID()
+    req.checkBody('tenantId', 'Invalid tenantId parameter ').isUUID()
     req.checkBody('mobileNumber', 'MobileNumber can not be empty').notEmpty();
-    req.checkBody('mobileNumber', 'Invalid mobile number.').isInt().isLength({ min: 10, max: 10 });
+    req.checkBody('mobileNumber', 'Invalid mobile number parameter').isInt().isLength({ min: 10, max: 15 });
 
     var errors = req.validationErrors(true);
     if (errors) {
@@ -236,23 +236,26 @@ router.put('/:id', function (req, res) {
     req.sanitizeBody('lastName').trim();
     req.sanitizeBody('mobileNumber').trim();
 
+    req.checkParams('id', 'User id can not be empty').notEmpty();
+    req.checkParams('id', 'Invalid userId ').isUUID();
+
     if (!empty(req.body.mobileNumber)) {
-        req.checkBody('mobileNumber', 'Invalid mobile number.').isInt().isLength({ min: 10, max: 10 });
+        req.checkBody('mobileNumber', 'Invalid mobile number parameter').isInt().isLength({ min: 10, max: 10 });
     }
     if (!empty(req.body.firstName)) {
-        req.checkBody('firstName', 'Invalid FirstName.').isLength(3, 100);
+        req.checkBody('firstName', 'Invalid firstName parameter').isLength(3, 100);
     }
     if (!empty(req.body.lastame)) {
-        req.checkBody('lastName', 'Invalid LastName.').isLength(3, 100);
+        req.checkBody('lastName', 'Invalid lastName parameter').isLength(3, 100);
     }
     if (!empty(req.body.roleId)) {
-        req.checkBody('roleId', 'Invalid RoleId').isUUID();
+        req.checkBody('roleId', 'Invalid roleId parameter').isUUID();
     }
     if (!empty(req.body.tenantId)) {
-        req.checkBody('tenantId', 'Invalid TenantId').isUUID();
+        req.checkBody('tenantId', 'Invalid tenantId parameter').isUUID();
     }
     if (!empty(req.body.fleetId)) {
-        req.checkBody('fleetId', 'Invalid fleetId').isUUID();
+        req.checkBody('fleetId', 'Invalid fleetId parameter').isUUID();
     }
 
     var errors = req.validationErrors(true);
@@ -337,7 +340,9 @@ router.put('/:id', function (req, res) {
  *
  */
 router.get('/:id', function (req, res) {
-    req.checkParams('id', 'Invalid').notEmpty();
+    req.checkParams('id', 'User id can not be empty').notEmpty();
+    req.checkParams('id', 'Invalid userId ').isUUID();
+
     var errors = req.validationErrors(true);
     if (errors) {
         res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS));
@@ -443,15 +448,15 @@ router.get('/:id', function (req, res) {
  *
  */
 router.get('/', function (req, res) {
-    req.checkQuery('limit', 'Invalid').optional().isInt();
-    req.checkQuery('page', 'Invalid').optional().isInt();
-    req.checkQuery('sort', 'Invalid').optional().isIn(constants.usersSortConstants);
-    req.checkQuery('order', 'Invalid').optional().isIn(constants.orderConstants);
-    req.checkQuery('email', 'Invalid Email').optional().isEmail();
-    req.checkQuery('roleId', 'Invalid roleId').optional().isUUID();
-    req.checkQuery('fleetId', 'Invalid fleetId').optional().isUUID();
-    req.checkQuery('isDriverAssign', 'Invalid isDriverAssign').optional().isIn([0, 1]);
-    req.checkQuery('isFleetUnAssign', 'Invalid isFleetUnAssign').optional().isIn(['true', 'false']);
+    req.checkQuery('limit', 'Invalid limit parameter').optional().isInt();
+    req.checkQuery('page', 'Invalid page parameter').optional().isInt();
+    req.checkQuery('sort', 'Invalid sort parameter').optional().isIn(constants.usersSortConstants);
+    req.checkQuery('order', 'Invalid order parameter').optional().isIn(constants.orderConstants);
+    req.checkQuery('email', 'Invalid email parameter').optional().isEmail();
+    req.checkQuery('roleId', 'Invalid roleId parameter').optional().isUUID();
+    req.checkQuery('fleetId', 'Invalid fleetId parameter ').optional().isUUID();
+    req.checkQuery('isDriverAssign', 'Invalid isDriverAssign parameter').optional().isIn([0, 1]);
+    req.checkQuery('isFleetUnAssign', 'Invalid isFleetUnAssign parameter').optional().isIn(['true', 'false']);
     var errors = req.validationErrors(true);
     if (errors) {
         res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS));
@@ -513,7 +518,8 @@ router.get('/', function (req, res) {
  *
  */
 router.delete('/:id', function (req, res) {
-    req.checkParams('id', 'Invalid').notEmpty();
+    req.checkParams('id', 'User id can not be empty').notEmpty();
+    req.checkParams('id', 'Invalid userId ').isUUID();
     var errors = req.validationErrors(true);
     if (errors) {
         res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS));

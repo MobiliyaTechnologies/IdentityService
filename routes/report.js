@@ -1,3 +1,7 @@
+/**
+ *  This module is use to define reports 
+ */
+'use strict';
 
 var express = require('express');
 var HttpStatus = require('http-status-codes');
@@ -5,9 +9,7 @@ var router = express.Router();
 var service = require('../src/service/report-service');
 var util = require('../src/util/commonUtil');
 var responseConstant = require('../src/constant/responseConstant');
-var constants = require('../src/constant/constants');
-var logger = require('../src/util/logger');
-var empty = require('is-empty');
+
 
 
 
@@ -79,7 +81,8 @@ var empty = require('is-empty');
  *
  */
 router.get('/:tenantId', function (req, res) {
-    req.checkParams('tenantId', 'Invalid').isUUID();
+    req.checkParams('tenantId', 'tenantId can not be empty').notEmpty();
+    req.checkParams('tenantId', 'Invalid tenantId').isUUID();
     var errors = req.validationErrors(true);
     if (errors) {
         res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS));

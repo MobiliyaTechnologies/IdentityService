@@ -146,7 +146,7 @@ module.exports = {
                         return reject(util.responseUtil(null, null, responseConstant.PASSWORD_CHANGE_ERROR));
                     });
                 } else {
-                    return reject(util.responseUtil(null, null, responseConstant.RECORD_NOT_FOUND));
+                    return reject(util.responseUtil(null, null, responseConstant.USER_NOT_FOUND));
                 }
             }, function (err) {
                 return reject(err);

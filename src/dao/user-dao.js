@@ -71,7 +71,7 @@ module.exports = {
                         return resolve(result);
                     } else {
                         return reject(
-                            util.responseUtil(null, null, responseConstant.RECORD_NOT_FOUND)
+                            util.responseUtil(null, null, responseConstant.USER_NOT_FOUND)
                         );
                     }
                 },
@@ -118,7 +118,7 @@ module.exports = {
                 }
             }, function (err) {
                 logger.error(err);
-                return reject(util.responseUtil(err, null, responseConstant.SYSTEM_ERROR));
+                return reject(util.responseUtil(err, null, responseConstant.SEQUELIZE_DATABASE_ERROR));
             })
             logger.debug("create user dao finished");
         });
@@ -145,7 +145,7 @@ module.exports = {
                         });
                     else {
                         return reject(
-                            util.responseUtil(null, result, responseConstant.RECORD_NOT_FOUND)
+                            util.responseUtil(null, result, responseConstant.USER_NOT_FOUND)
                         );
                     }
                 },
@@ -177,7 +177,7 @@ module.exports = {
                     }
                     else {
                         return reject(
-                            util.responseUtil(null, result, responseConstant.RECORD_NOT_FOUND)
+                            util.responseUtil(null, result, responseConstant.USER_NOT_FOUND)
                         );
                     }
                 },
@@ -214,10 +214,10 @@ module.exports = {
                 function (result) {
 
                     if (result) {
-                        return resolve({ id: result.id, email: result.email, password: result.password, tenantId: result.tenantId, roleId: result.roleId, tenantCompany: result.Tenant.tenantCompanyName });
+                        return resolve({ id: result.id, email: result.email, password: result.password, tenantId: result.tenantId, roleId: result.roleId, tenantCompany: result.Tenant.tenantCompanyName, tenantId: result.Tenant.id });
                     } else {
                         return reject(
-                            util.responseUtil(null, null, responseConstant.RECORD_NOT_FOUND)
+                            util.responseUtil(null, null, responseConstant.USER_NOT_FOUND)
                         );
                     }
                 },

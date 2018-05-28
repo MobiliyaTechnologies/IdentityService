@@ -73,7 +73,7 @@ module.exports = {
                 return db.tenant.update(tenantUpdated, { where: reqCondition }, { transaction: t }).then(function (result) {
                     if (!(result && result[0]))
                         return reject(
-                            util.responseUtil(null, null, responseConstant.RECORD_NOT_FOUND)
+                            util.responseUtil(null, null, responseConstant.TENANT_NOT_FOUND)
                         );
                     roleDao.getRoleIdByName('tenant admin').then(function (result) {
                         var roleId = result.roleId;
@@ -122,7 +122,7 @@ module.exports = {
                         return resolve(result);
                     } else {
                         return reject(
-                            util.responseUtil(null, null, responseConstant.RECORD_NOT_FOUND)
+                            util.responseUtil(null, null, responseConstant.TENANT_NOT_FOUND)
                         );
                     }
                 },
@@ -184,7 +184,7 @@ module.exports = {
                 where: reqCondition
             }).then(function (existingTenant) {
                 if (existingTenant.length === 0) {
-                    return reject(util.responseUtil(null, null, responseConstant.RECORD_NOT_FOUND));
+                    return reject(util.responseUtil(null, null, responseConstant.TENANT_NOT_FOUND));
                 }
                 else {
                     return db.sequelize.transaction(function (t) {

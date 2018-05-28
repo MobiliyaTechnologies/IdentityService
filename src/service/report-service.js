@@ -1,9 +1,13 @@
 
 'use strict';
 /**
+ *  This module is use to define controller for report model 
+ * 
+ */
+/**
  *  import project modules
  */
-var _ = require('underscore');
+
 var util = require('../util/commonUtil');
 var reportDao = require('../dao/report-dao');
 var responseConstant = require("../constant/responseConstant");
@@ -18,9 +22,7 @@ module.exports = {
         return new Promise(function (resolve, reject) {
 
             var criteria = {};
-            //remove page,sort,order and limit variable if exist
             criteria.tenantId = req.params.tenantId;
-            console.log(criteria.tenantId);
             reportDao.getAllReportsOfTenant(criteria).then(function (result) {
                 return resolve(util.responseUtil(null, result, responseConstant.SUCCESS));
             }, function (err) {

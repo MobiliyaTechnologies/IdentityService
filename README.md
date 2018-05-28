@@ -7,10 +7,14 @@ You need to have [Node.js](https://nodejs.org), [SQL Server Management Studio ](
 
 
 ### Installation
+```sh
 npm install 
+```
 
 ### Run server
+```sh
 npm start
+```
 
 ### Testing the API
 Test REST API using [Postman](https://www.getpostman.com/apps)

@@ -58,77 +58,76 @@ models.forEach(function (model) {
 
     if (model === 'roles') {
         module.exports[model].sync().then(function () {
+            var superAdminRoleId;
+            var tenantAdminRoleId;
             return sequelize.transaction(function (t) {
-                var insertObj = {
-                    "roleName": "tenant admin",
-                    "privileges": "Manage tenant specific fleets and users"
-                };
-                return module.exports['roles'].create(insertObj, { transaction: t }).then(function (result) {
-                    var insertObj = {
+                var insertRoleObj = [
+                    {
+                        "roleName": "super admin",
+                        "privileges": "Manage users"
+                    },
+                    {
+                        "roleName": "tenant admin",
+                        "privileges": "Manage tenant specific fleets and users"
+                    },
+                    {
+                        "roleName": "driver",
+                        "privileges": "Create trip"
+                    },
+                    {
                         "roleName": "fleet admin",
                         "privileges": "Manage fleet specific vehicles and drivers"
-                    };
-                    return module.exports['roles'].create(insertObj, { transaction: t }).then(function (result) {
+                    }
+                ]
+                return module.exports['roles'].bulkCreate(insertRoleObj, { transaction: t }).then(function (roleResult) {
+                    for (var i = 0; i < roleResult.length; i++) {
+                        if (roleResult[i].dataValues.roleName == 'super admin') {
+                            superAdminRoleId = roleResult[i].dataValues.id;
+                        }
+                        if (roleResult[i].dataValues.roleName == 'tenant admin') {
+                            tenantAdminRoleId = roleResult[i].dataValues.id;
+                        }
+                    }
 
-                        var insertRoleObj = {
-                            "roleName": "driver",
-                            "privileges": "Create trip"
-                        };
-                        return module.exports['roles'].create(insertRoleObj, { transaction: t })
-                    });
-                });
-
-
-            }).then(function (result) {
-                logger.info("Roles created:");
-
-            }).catch(function (err) {
-                logger.error("Error in role creation");
-
-            });
-        });
-    }
-
-    if (model !== 'users') {
-        module.exports[model].sync();
-    } else {
-        module.exports['users'].sync().then(function () {
-            return sequelize.transaction(function (t) {
-                var insertObj = {
-                    "roleName": "super admin",
-                    "privileges": "Manage users"
-                };
-                return module.exports['roles'].create(insertObj, { transaction: t }).then(function (result) {
-                    var insertObj = {
+                    var insertTenantObj = {
                         "tenantCompanyName": "root"
                     };
-                    return module.exports['tenant'].create(insertObj, { transaction: t }).then(function (tenantResult) {
-                        var insertObj = {
+                    return module.exports['tenant'].create(insertTenantObj, { transaction: t }).then(function (tenantResult) {
+                        var insertUserObj = [{
                             email: "superadmin@mobiliya.com",
                             mobileNumber: "0000000000",
                             password: util.encryptPassword('welcome'),
                             status: 1,
                             firstName: "Super",
                             lastName: "Admin",
-                            roleId: result.id,
-                            fleetId: "2a49828d-514d-403c-8868-3d2de896e0dd",
+                            roleId: superAdminRoleId,
                             tenantId: tenantResult.id
-                        }
-                        return module.exports['users'].create(insertObj, { transaction: t });
-                    });
+                        },
 
+                        {
+                            email: "tenantadmin@mobiliya.com",
+                            mobileNumber: "0000000001",
+                            password: util.encryptPassword('welcome'),
+                            status: 1,
+                            firstName: "Tenant",
+                            lastName: "Admin",
+                            roleId: tenantAdminRoleId,
+                            tenantId: tenantResult.id
+                        }]
+                        return module.exports['users'].bulkCreate(insertUserObj, { transaction: t })
+                    });
                 });
             }).then(function (result) {
-                logger.info("Super Admin Created userId:", result.id);
+                logger.info("Super Admin and Tenant Admin created!");
 
             }).catch(function (err) {
-                logger.error("Error in Superadmin Creation,Record already exist");
+                logger.error("Error in Super Admin and Tenant Admin creation,Records already exist");
 
             });
         });
+    } else {
+        module.exports[model].sync();
     }
-
-
 });
 
 // describe relationships

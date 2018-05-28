@@ -43,8 +43,7 @@ if (file.activeEnv == "prod") {
 
     fs.writeFile(fileName, JSON.stringify(file), function (err) {
         if (err) return console.log(err);
-        console.log(JSON.stringify(file));
-        console.log('writing to ' + fileName);
+
     });
 }
 
@@ -53,6 +52,7 @@ var users = require('./routes/users');
 var roles = require('./routes/roles');
 var tenant = require('./routes/tenant');
 var report = require('./routes/report');
+
 /**
  * Database Connection
  */

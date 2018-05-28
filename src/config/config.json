@@ -1,59 +1,5 @@
 {
   "activeEnv": "prod",
-  "dev": {
-    "databaseConnection": {
-      "dbName": "IdentityDB_DEV",
-      "dbUserName": "Mobiliya",
-      "dbUserPassword": "qwert_1234",
-      "dbHost": "mobiliya.database.cloudapi.cn",
-      "dbDialect": "mssql",
-      "dbInstanceName": "SQLEXPRESS"
-    },
-    "auth": {
-      "JWT_ISSUER": "Fleet",
-      "JWT_SECRET_FOR_ACCESS_TOKEN": "XT6PRpRuehFsyMa2",
-      "JWT_SECRET_FOR_REFRESH_TOKEN": "JWPVzFWkqGxoE2C2",
-      "JWT_ACCESS_TOKEN_EXPIRY_SECONDS": 10000,
-      "JWT_GRANT_TYPE_PASSWORD": "password",
-      "JWT_GRANT_TYPE_REFRESH_TOKEN": "refresh_token",
-      "JWT_TOKEN_ALGORITHM_TYPE": "HS256",
-      "JWT_ACCESS_TOKEN_STR": "accessToken"
-    },
-    "redis": {
-      "port": 6379,
-      "host": "mobiliya.redis.cache.cloudapi.cn",
-      "option": {
-        "auth_pass": "Z6W2beVx0oxhLiESjIaKqbN7Rgp83GzNLT+GlGOz9WQ="
-      }
-    }
-  },
-  "qa": {
-    "databaseConnection": {
-      "dbName": "IdentityDB_QA",
-      "dbUserName": "Mobiliya",
-      "dbUserPassword": "qwert_1234",
-      "dbHost": "mobiliya.database.cloudapi.cn",
-      "dbDialect": "mssql",
-      "dbInstanceName": "SQLEXPRESS"
-    },
-    "auth": {
-      "JWT_ISSUER": "Fleet",
-      "JWT_SECRET_FOR_ACCESS_TOKEN": "XT6PRpRuehFsyMa2",
-      "JWT_SECRET_FOR_REFRESH_TOKEN": "JWPVzFWkqGxoE2C2",
-      "JWT_ACCESS_TOKEN_EXPIRY_SECONDS": 10000,
-      "JWT_GRANT_TYPE_PASSWORD": "password",
-      "JWT_GRANT_TYPE_REFRESH_TOKEN": "refresh_token",
-      "JWT_TOKEN_ALGORITHM_TYPE": "HS256",
-      "JWT_ACCESS_TOKEN_STR": "accessToken"
-    },
-    "redis": {
-      "port": 6379,
-      "host": "mobiliya.redis.cache.cloudapi.cn",
-      "option": {
-        "auth_pass": "V5s9qjyF3XHIquxvYVFLDiJHIvdDwYRs3/tzSE0ZQGw="
-      }
-    }
-  },
   "prod": {
     "databaseConnection": {
       "dbName": "identitydb",
