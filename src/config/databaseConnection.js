@@ -90,7 +90,7 @@ models.forEach(function (model) {
                     }
 
                     var insertTenantObj = {
-                        "tenantCompanyName": "root"
+                        "tenantCompanyName": "Mobiliya"
                     };
                     return module.exports['tenant'].create(insertTenantObj, { transaction: t }).then(function (tenantResult) {
                         var insertUserObj = [{

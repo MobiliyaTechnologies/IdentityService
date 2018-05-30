@@ -140,8 +140,6 @@ module.exports = {
                 //delete req.query.page;
             }
 
-            addCriteria.email = { $ne: "superadmin@mobiliya.com" };
-
             if (req.query.email) {
                 addCriteria.email = req.query.email;
 
