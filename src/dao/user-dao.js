@@ -33,7 +33,7 @@ module.exports = {
                 limit: limit,
                 offset: page,
                 order: [[sort, order]],
-                attributes: ['id', 'email', 'password', 'mobileNumber', 'firstName', 'status', 'roleId', 'fleetId', 'tenantId', 'isDriverAssign', 'licenseNumber']
+                attributes: ['id', 'email', 'password', 'mobileNumber', 'firstName', 'lastName','status', 'roleId', 'fleetId', 'tenantId', 'isDriverAssign', 'licenseNumber']
             }).then(
                 function (result) {
                     return resolve(result);
@@ -64,7 +64,7 @@ module.exports = {
                     attributes: ['id', 'tenantCompanyName']
                 }],
                 where: reqObj,
-                attributes: ['id', 'email', 'password', 'mobileNumber', 'firstName', 'status', 'roleId', 'fleetId', 'isDriverAssign', 'licenseNumber']
+                attributes: ['id', 'email', 'password', 'mobileNumber', 'firstName', 'lastName','status', 'roleId', 'fleetId', 'isDriverAssign', 'licenseNumber']
             }).then(
                 function (result) {
                     if (result) {

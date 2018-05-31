@@ -220,6 +220,8 @@ function isEmptyCheck(body) {
     }
     if (!empty(body.lastName)) {
         insertObj.lastName = body.lastName;
+    } else {
+        insertObj.lastName = '';
     }
     if (!empty(body.email)) {
         insertObj.email = body.email;
