@@ -89,7 +89,7 @@ router.post('/', oauth.isRolesApiAuthenticate, function (req, res) {
     req.checkBody('privileges', 'Privileges can not be empty').notEmpty();
     var errors = req.validationErrors(true);
     if (errors) {
-        var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
+        var err = util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     } else {
         service.insertData(req).then(function (result) {
@@ -175,7 +175,7 @@ router.put('/:id', oauth.isRolesApiAuthenticate, function (req, res) {
     req.checkParams('id', 'Invalid roleId').isUUID();
     var errors = req.validationErrors(true);
     if (errors) {
-        var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
+        var err = util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     } else {
         service.updateData(req).then(function (result) {
@@ -249,7 +249,7 @@ router.get('/:id', oauth.isAuthenticate, function (req, res) {
     req.checkParams('id', 'Invalid roleId').isUUID();
     var errors = req.validationErrors(true);
     if (errors) {
-        var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
+        var err = util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     } else {
         service.getRole(req).then(function (result) {
@@ -344,7 +344,7 @@ router.get('/', oauth.isAuthenticate, function (req, res) {
     req.checkQuery('order', 'Invalid order parameter').optional().isIn(constants.orderConstants);
     var errors = req.validationErrors(true);
     if (errors) {
-        var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
+        var err = util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     } else {
         service.getAllRoles(req).then(function (result) {
@@ -409,7 +409,7 @@ router.delete('/:id', oauth.isRolesApiAuthenticate, function (req, res) {
     req.checkParams('id', 'Invalid roleId').isUUID();
     var errors = req.validationErrors(true);
     if (errors) {
-        var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
+        var err = util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     } else {
         service.deleteData(req).then(function (result) {

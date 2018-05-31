@@ -308,7 +308,7 @@ module.exports = {
                         return reject(err);
                     });
                 } else {
-                    return reject(util.responseUtil(null, null, responseConstant.INVALIDE_ROLE));
+                    return reject(util.responseUtil(null, null, responseConstant.INVALID_ROLE));
                 }
             }, function (err) {
                 return reject(err);

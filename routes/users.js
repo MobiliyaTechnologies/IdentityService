@@ -141,7 +141,7 @@ router.post('/', function (req, res) {
 
     var errors = req.validationErrors(true);
     if (errors) {
-        res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS));
+        res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS));
     } else {
         service.insertData(req).then(function (result) {
             res.status(HttpStatus.CREATED).send(result);
@@ -260,7 +260,7 @@ router.put('/:id', function (req, res) {
 
     var errors = req.validationErrors(true);
     if (errors) {
-        res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS));
+        res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS));
     } else {
         service.updateData(req).then(function (result) {
             res.status(HttpStatus.OK).send(result);
@@ -345,7 +345,7 @@ router.get('/:id', function (req, res) {
 
     var errors = req.validationErrors(true);
     if (errors) {
-        res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS));
+        res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS));
     } else {
         service.getUser(req).then(function (result) {
             res.status(HttpStatus.OK).send(result);
@@ -459,7 +459,7 @@ router.get('/', function (req, res) {
     req.checkQuery('isFleetUnAssign', 'Invalid isFleetUnAssign parameter').optional().isIn(['true', 'false']);
     var errors = req.validationErrors(true);
     if (errors) {
-        res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS));
+        res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS));
     } else {
         service.getAllUsers(req).then(function (result) {
             res.status(HttpStatus.OK).send(result);
@@ -522,7 +522,7 @@ router.delete('/:id', function (req, res) {
     req.checkParams('id', 'Invalid userId ').isUUID();
     var errors = req.validationErrors(true);
     if (errors) {
-        res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS));
+        res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS));
     } else {
         service.deleteData(req).then(function (result) {
             res.status(HttpStatus.OK).send(result);

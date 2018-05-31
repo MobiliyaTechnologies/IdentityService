@@ -240,7 +240,7 @@ router.put('/reset-password', function (req, res) {
     req.checkBody('email', 'Invalid Email').isEmail();
     var errors = req.validationErrors(true);
     if (errors) {
-        var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
+        var err = util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     } else {
         service.resetPassword(req).then(function (result) {
@@ -312,7 +312,7 @@ router.post('/forgot-password', function (req, res) {
     req.checkBody('email', 'Invalid email').isEmail();
     var errors = req.validationErrors(true);
     if (errors) {
-        res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS));
+        res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS));
     } else {
         service.forgotPassword(req).then(function (result) {
             res.status(HttpStatus.OK).send(result);

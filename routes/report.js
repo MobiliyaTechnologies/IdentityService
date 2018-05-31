@@ -85,7 +85,7 @@ router.get('/:tenantId', function (req, res) {
     req.checkParams('tenantId', 'Invalid tenantId').isUUID();
     var errors = req.validationErrors(true);
     if (errors) {
-        res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS));
+        res.status(HttpStatus.BAD_REQUEST).send(util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS));
     } else {
         service.getAllReportsOfTenant(req).then(function (result) {
             res.status(HttpStatus.OK).send(result);

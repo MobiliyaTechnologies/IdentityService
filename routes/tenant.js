@@ -125,7 +125,7 @@ router.post('/', function (req, res) {
 
     var errors = req.validationErrors(true);
     if (errors) {
-        var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
+        var err = util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     } else {
         service.insertTenant(req).then(function (result) {
@@ -236,7 +236,7 @@ router.put('/:id', function (req, res) {
 
     var errors = req.validationErrors(true);
     if (errors) {
-        var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
+        var err = util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     } else {
         service.updateData(req).then(function (result) {
@@ -320,7 +320,7 @@ router.get('/:id', function (req, res) {
     req.checkParams('id', 'Invalid tenantId').isUUID();
     var errors = req.validationErrors(true);
     if (errors) {
-        var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
+        var err = util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     } else {
         service.getTenant(req).then(function (result) {
@@ -408,7 +408,7 @@ router.get('/', function (req, res) {
     req.checkQuery('order', 'Invalid order parameter').optional().isIn(constants.orderConstants);
     var errors = req.validationErrors(true);
     if (errors) {
-        var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
+        var err = util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     } else {
         service.getAllTenant(req).then(function (result) {
@@ -472,7 +472,7 @@ router.delete('/:id', function (req, res) {
     req.checkParams('id', 'Invalid tenantId').isUUID();
     var errors = req.validationErrors(true);
     if (errors) {
-        var err = util.responseUtil(errors, null, responseConstant.INVALIDE_REQUEST_PARAMETERS);
+        var err = util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     } else {
         service.deleteData(req).then(function (result) {

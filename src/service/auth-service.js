@@ -70,13 +70,13 @@ module.exports = {
 
                         return resolve(util.responseUtil(null, response, responseConstant.SUCCESS));
                     } else {
-                        return reject(util.responseUtil(null, null, responseConstant.INVALIDE_CREDENTIAL));
+                        return reject(util.responseUtil(null, null, responseConstant.INVALID_CREDENTIAL));
                     }
                 }, function (err) {
                     return reject(err);
                 });
             }, function (err) {
-                return reject(util.responseUtil(err, null, responseConstant.INVALIDE_CREDENTIAL));
+                return reject(util.responseUtil(err, null, responseConstant.INVALID_CREDENTIAL));
             });
         });
     },
