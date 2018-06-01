@@ -82,7 +82,7 @@ var oauth = require('../src/config/authentication');
 /* CREATE ROLE. */
 router.post('/', oauth.isRolesApiAuthenticate, function (req, res) {
     if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-        var err = util.responseUtil(errors, null, responseConstant.EMPTY_REQUEST_BODY_ERROR);
+        var err = util.responseUtil(null, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     }
     req.checkBody('roleName', 'Role name can not be empty').notEmpty();
@@ -168,7 +168,7 @@ router.post('/', oauth.isRolesApiAuthenticate, function (req, res) {
 /* PUT update role. */
 router.put('/:id', oauth.isRolesApiAuthenticate, function (req, res) {
     if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-        var err = util.responseUtil(errors, null, responseConstant.EMPTY_REQUEST_BODY_ERROR);
+        var err = util.responseUtil(null, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     }
     req.checkParams('id', 'RoleId can not be empty').notEmpty();

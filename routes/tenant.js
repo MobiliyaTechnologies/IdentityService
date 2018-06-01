@@ -101,7 +101,7 @@ var empty = require('is-empty');
  */
 router.post('/', function (req, res) {
     if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-        var err = util.responseUtil(errors, null, responseConstant.EMPTY_REQUEST_BODY_ERROR);
+        var err = util.responseUtil(null, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     }
     req.sanitizeBody('firstName').trim();
@@ -219,7 +219,7 @@ router.post('/', function (req, res) {
  */
 router.put('/:id', function (req, res) {
     if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-        var err = util.responseUtil(errors, null, responseConstant.EMPTY_REQUEST_BODY_ERROR);
+        var err = util.responseUtil(null, null, responseConstant.INVALID_REQUEST_PARAMETERS);
         res.status(HttpStatus.BAD_REQUEST).send(err);
     }
     req.checkParams('id', 'Tenant id can not be empty').notEmpty();
