@@ -194,7 +194,7 @@ module.exports = {
                                 return reject(err);
                             });
                         } else {
-                            return reject(util.responseUtil(null, null, responseConstant.ERROR_IN_DELETION));
+                            return reject(util.responseUtil(null, null, responseConstant.TENANT_DELETION_ERROR));
                         }
                     }, function (err) {
                         return reject(err);

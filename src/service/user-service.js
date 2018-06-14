@@ -11,6 +11,7 @@
 
 var authConfig = require('../config/config.json');
 var appUrl = authConfig[authConfig.activeEnv].frontendUrl + "/reset-password"
+var apkUrl = authConfig[authConfig.activeEnv].apkURL
 var userDao = require('../dao/user-dao');
 var tenantDao = require('../dao/tenant-dao');
 var responseConstant = require("../constant/responseConstant");
@@ -88,7 +89,6 @@ var assignVehicleToDriver = function (req, result, vehicleId, callback) {
                 'Content-Length': put_data.length
             }
         };
-        console.log("option::", options, put_data);
         util.httpRequest(put_data, options, function (err, result1) {
             if (err) {
                 callback(err);
@@ -272,31 +272,48 @@ module.exports = {
             var decoded = JWT.verify(req.headers.authorization, jwtKey.JWT_SECRET_FOR_ACCESS_TOKEN);
             //check roleId exist or not
             roleDao.getRoleById(req.body.roleId).then(function (roleResult) {
+                if (roleResult.roleName === 'driver' && empty(req.body.fleetId)) {
+                    return reject(util.responseUtil(null, null, responseConstant.FLEET_NULL_ERROR));
+                }
                 if (roleResult.roleName === 'driver' || roleResult.roleName === 'fleet admin') {
                     userDao.insertData(insertObj).then(function (result) {
 
                         tenantDao.getTenant({ id: result.tenantId, isDeleted: 0 }).then(function (tenantResult) {
                             var link = 'https://' + appUrl + '?token=' + 'welcome' + '&email=' + req.body.email;
-                            var msg = "Hi " + result.firstName + ",<br><br> We are glad to inform you that " + tenantResult.dataValues.tenantCompanyName + " has created your account. <br>To begin exploring the web portal please click the link below to set password and sign in. <br><br><a>" + link + "</a><br><br>Please get in touch with our support team for any queries at admin.support@" + tenantResult.dataValues.tenantCompanyName + ".com  <br><br>We are sending this mail as you are registered with " + tenantResult.dataValues.tenantCompanyName + " system.";
-                            util.sendMail(req.body.email, "Mobiliya System - Set password", msg, function (err, success) {
-                            })
+                            var msg = "Hi " + result.firstName + ",<br><br> We are glad to inform you that " + tenantResult.dataValues.tenantCompanyName + " has created your Fleet Admin account on Mobiliya Fleet Management portal. <br><br>To begin exploring the fleet management please click the link below to set password and sign into your account.<br><br><a href='" + link + "'>" + "Sign In to Mobiliya Fleet Management" + "</a><br><br>Please get in touch with our support team for any queries at admin.support@" + tenantResult.dataValues.tenantCompanyName + ".com";
+                            var sub = "Welcome to " + tenantResult.dataValues.tenantCompanyName + " Fleet Management";
+                            if (roleResult.roleName === 'driver') {
+                                msg = "Hi " + result.firstName + ",<br><br> We are glad to inform you that " + tenantResult.dataValues.tenantCompanyName + " has created your Driver account in Mobiliya Fleet Management portal. <br><br>To begin exploring the Fleet Management service please click on the link below to download the mobile app for Drivers. <br><br><a href='" + apkUrl + "'>" + apkUrl + "</a><br><br> Once the app is downloaded, use the details given below to login to your account: <br><br>Company Name : " + tenantResult.dataValues.tenantCompanyName + "<br> User Name : " + result.email + "<br>Password : welcome <br><br>Please get in touch with our support team for any queries at admin.support@" + tenantResult.dataValues.tenantCompanyName + ".com";
+                            }
+                            if (roleResult.roleName === 'fleet admin' || (roleResult.roleName === 'driver' && empty(req.body.vehicleId))) {
+                                util.sendMail(req.body.email, sub, msg, function (err, success) {
+                                })
+                            }
                             if (!empty(req.body.vehicleId) && roleResult.roleName === 'driver') {
                                 assignVehicleToDriver(req, result, req.body.vehicleId, function (err, vehicleResult) {
-                                    if (vehicleResult.data[0] === 0) {
-                                        result.vehicleName = "Invalid Vehicle";
-                                        return resolve(util.responseUtil(null, result, responseConstant.SUCCESS));
-                                    } else {
-                                        if (err) {
-                                            return reject(util.responseUtil(null, null, responseConstant.RUN_TIME_ERROR));
-                                        } else {
+                                    if (vehicleResult) {
+                                        if (vehicleResult.message != 'Success') {
+                                            util.sendMail(req.body.email, sub, msg, function (err, success) {
+                                            });
+                                            return reject(util.responseUtil(vehicleResult.message, null, responseConstant.VEHICLE_ASSIGN_ERROR));
+                                        }
+                                        else {
                                             userDao.updateData({ isDriverAssign: 1 }, { id: result.id }).then(function (updateResult) {
                                                 result.vehicleName = vehicleResult.data.brandName;
                                                 result.isDriverAssign = 1;
+                                                msg = "Hi " + result.firstName + ",<br><br> We are glad to inform you that " + tenantResult.dataValues.tenantCompanyName + " has created your Driver account in Mobiliya Fleet Management portal. <br><br>To begin exploring the Fleet Management Service please click on the link below to download the mobile app for Drivers.<br><br><a href='" + apkUrl + "'>" + apkUrl + "</a><br><br> Once the app is downloaded,use the details given below to login to your account: <br><br>Company Name : " + tenantResult.dataValues.tenantCompanyName + "<br> User Name : " + result.email + "<br>Password : welcome <br> Vehicle Registration Number : " + vehicleResult.data.registrationNumber + "<br><br>Please get in touch with our support team for any queries at admin.support@" + tenantResult.dataValues.tenantCompanyName + ".com";
+                                                util.sendMail(req.body.email, sub, msg, function (err, success) {
+                                                });
                                                 return resolve(util.responseUtil(null, result, responseConstant.SUCCESS));
                                             }, function (err) {
                                                 return reject(err);
                                             });
                                         }
+                                    }
+                                    if (err) {
+                                        util.sendMail(req.body.email, sub, msg, function (err, success) {
+                                        })
+                                        return reject(util.responseUtil(err, null, responseConstant.VEHICLE_ASSIGN_ERROR));
                                     }
                                 });
                             } else
@@ -353,7 +370,7 @@ module.exports = {
             userDao.getUser({ id: req.params.id, isDeleted: 0 }).then(function (result) {
                 roleDao.getRoleById(result.dataValues.roleId).then(function (roleResult) {
                     if (roleResult.roleName === 'super admin') {
-                        return reject(util.responseUtil(null, null, responseConstant.ERROR_IN_DELETION));
+                        return reject(util.responseUtil(null, null, responseConstant.SUPERADMIN_DELETION_ERROR));
                     }
                     else if (roleResult.roleName === 'driver') {
 
@@ -362,7 +379,7 @@ module.exports = {
                                 var updateObj = {};
                                 updateObj.isDeleted = 1;
                             } else {
-                                return reject(util.responseUtil(null, null, responseConstant.ERROR_IN_DELETION));
+                                return reject(util.responseUtil(null, null, responseConstant.DRIVER_DELETION_ERROR));
                             }
                         } else {
                             return reject(util.responseUtil(null, null, responseConstant.INVALID_TOKEN));
@@ -374,7 +391,7 @@ module.exports = {
                                 var updateObj = {};
                                 updateObj.isDeleted = 1;
                             } else {
-                                return reject(util.responseUtil(null, null, responseConstant.ERROR_IN_DELETION));
+                                return reject(util.responseUtil(null, null, responseConstant.FLEETADMIN_DELETION_ERROR));
                             }
                         } else {
                             return reject(util.responseUtil(null, null, responseConstant.INVALID_TOKEN));
@@ -401,6 +418,7 @@ Function for empty check
  */
 
 function isEmptyCheck(body) {
+
     var insertObj = {};
     if (!empty(body.firstName)) {
         insertObj.firstName = body.firstName;
@@ -431,10 +449,10 @@ function isEmptyCheck(body) {
     if (!empty(body.licenseNumber)) {
         insertObj.licenseNumber = body.licenseNumber;
     }
-    if (!empty(body.isDriverAssign)) {
+    if (body.isDriverAssign === 1 || body.isDriverAssign === 0) {
         insertObj.isDriverAssign = parseInt(body.isDriverAssign);
     }
-    if (body.isRemoveFleet && body.isRemoveFleet === 'true') {
+    if (body.isRemoveFleet && body.isRemoveFleet === true) {
         insertObj.fleetId = null;
     }
 

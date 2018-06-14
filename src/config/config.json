@@ -26,7 +26,12 @@
         "auth_pass": "5zMqOS1x+bDx9gvM5Kajsf3tVERUn72AohI0IA5qIHk="
       }
     },
+    "email": {
+      "user": "agreeya.mobiliya01@gmail.com",
+      "password": "Mobiliya@2012"
+    },
     "frontendUrl": "https://accelerator-portal.azurewebsites.net",
+    "apkURL": "https://testblobforapk.blob.core.windows.net/apk-container/mobiliya_fleet_v1.0.21.apk",
     "hostname_fleet": "fleet-service.azurewebsites.net",
     "port_fleet": "80"
   },
@@ -49,13 +54,18 @@
       "JWT_TOKEN_ALGORITHM_TYPE": "HS256",
       "JWT_ACCESS_TOKEN_STR": "accessToken"
     },
-    "frontendUrl": "http://localhost:3301",
+    "frontendUrl": "localhost:3301",
+    "apkURL": "https://testblobforapk.blob.core.windows.net/apk-container/mobiliya_fleet_v1.0.21.apk",
     "hostname_fleet": "127.0.0.1",
     "port_fleet": "3302",
     "redis": {
       "port": 6379,
       "host": "localhost",
       "option": {}
+    },
+    "email": {
+      "user": "agreeya.mobiliya01@gmail.com",
+      "password": "Mobiliya@2012"
     }
   }
 }

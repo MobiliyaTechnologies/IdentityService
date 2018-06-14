@@ -40,7 +40,15 @@ if (file.activeEnv == "prod") {
     if (process.env.CUSTOMCONNSTR_redisAuthPass != undefined) {
         file.prod.redis.option.auth_pass = process.env.CUSTOMCONNSTR_redisAuthPass;
     }
-
+    if (process.env.CUSTOMCONNSTR_gmailUserName != undefined) {
+        file.prod.email.user = process.env.CUSTOMCONNSTR_gmailUserName;
+    }
+    if (process.env.CUSTOMCONNSTR_gmailPassword != undefined) {
+        file.prod.email.password = process.env.CUSTOMCONNSTR_gmailPassword;
+    }
+    if (process.env.CUSTOMCONNSTR_apkURL != undefined) {
+        file.prod.apkURL = process.env.CUSTOMCONNSTR_apkURL;
+    }
     fs.writeFile(fileName, JSON.stringify(file), function (err) {
         if (err) return console.log(err);
 

@@ -10,6 +10,8 @@ var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var https = require('http');
 const secret = 'm@b1l1y@';
+var config = require('../config/config.json');
+config = config[config.activeEnv];
 
 /**
  * export module
@@ -83,12 +85,12 @@ module.exports = {
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'agreeya.mobiliya01@gmail.com',
-                pass: 'Mobiliya@2012'
+                user: config.email.user,
+                pass: config.email.password
             }
         });
         var mailOptions = {                                             // setup e-mail data with unicode symbols
-            from: 'agreeya.mobiliya01@gmail.com',                                       // sender address
+            from: config.email.user,                                      // sender address
             to: emailId,                           // list of receivers
             subject: subject,                                     // Subject line
             text: 'Hello',                                            // plaintext body
@@ -111,24 +113,24 @@ module.exports = {
     httpRequest: function (reqData, options, callback) {
         var getReq = https.request(options, function (res) {
             var responseObj = '';
-        res.setEncoding('utf8');
+            res.setEncoding('utf8');
             res.on('data', function (chunk) {
-            responseObj += chunk ;     
-          });
-            res.on('end', function () {    
-                return callback(null, JSON.parse(responseObj));  
-                });
-       });
-    
-    getReq.write(reqData); 
+                responseObj += chunk;
+            });
+            res.on('end', function () {
+                return callback(null, JSON.parse(responseObj));
+            });
+        });
+
+        getReq.write(reqData);
         //end the request
         getReq.end();
-    getReq.on('error', function (err) {
-        return callback(err);
-    });
-},
+        getReq.on('error', function (err) {
+            return callback(err);
+        });
+    },
 
-    
+
 }
 
 

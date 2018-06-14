@@ -112,7 +112,7 @@ module.exports = {
                 include: [{
                     model: db.users,
                     where: userReqobj,
-                    attributes: ['id', 'email', 'password', 'mobileNumber', 'firstName', 'lastName', 'status', 'roleId', 'fleetId']
+                    attributes: ['id', 'email', 'mobileNumber', 'firstName', 'lastName', 'status', 'roleId', 'fleetId']
                 }],
                 where: tenantReqObj,
                 attributes: ['id', 'tenantCompanyName']

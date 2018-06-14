@@ -76,7 +76,7 @@ module.exports = {
                     return reject(err);
                 });
             }, function (err) {
-                return reject(util.responseUtil(err, null, responseConstant.INVALID_CREDENTIAL));
+                return reject(err);
             });
         });
     },
@@ -130,24 +130,35 @@ module.exports = {
     forgotPassword: function (req) {
         return new Promise(function (resolve, reject) {
             userDao.getUser({ email: req.body.email, isDeleted: 0 }).then(function (result) {
+
                 if (result) {
-                    var randomPassword = util.generateRandomPassword();
-                    var reqObj = { password: util.encryptPassword(randomPassword) };
-                    var link = 'https://'+ appUrl + '?token=' + randomPassword + '&email=' + req.body.email;
-                    userDao.updateData(reqObj, { email: req.body.email }).then(function (result) {
-                        var msg = "Hi " + ",<br><br> Please click the below link to set new password and sign in. <br><br><a href='" + link + "'>" + link + "</a><br><br>Please get in touch with our support team for any queries at admin.support@mobiliya.com <br><br>We are sending this mail as you are registered with mobiliya system.";
-                        util.sendMail(req.body.email, "Mobiliya System - Set password", msg, function (err, success) {
-                            if (err) {
-                                return resolve(util.responseUtil(err, null, responseConstant.UNABLE_TO_SEND_EMAIL));
-                            } else
-                                return resolve(util.responseUtil(null, null, responseConstant.SUCCESS));
-                        })
+                    roleDao.getRoleById(result.roleId).then(function (roleResult) {
+                        var randomPassword = util.generateRandomPassword();
+                        var reqObj = { password: util.encryptPassword(randomPassword) };
+                        var link = 'https://' + appUrl + '?token=' + randomPassword + '&email=' + req.body.email;
+                        var sub = "Forgot Password"
+                        var msg = "Hi " + result.firstName + ",<br><br> Click on the link below to reset your Fleet Management account password. <br><br><a href='" + link + "'>" + "Reset Password" + "</a><br><br>Please get in touch with our support team for any queries at admin.support@mobiliya.com ";
+                        if (roleResult.roleName === 'driver') {
+                            msg = "Hi " + result.firstName + ",<br><br> Please use the details given below  to sign into the system. <br><br>User Name : " + result.email + "<br>Password : " + randomPassword + "<br><br>Please get in touch with our support team for any queries at admin.support@mobiliya.com ";
+                        }
+                        userDao.updateData(reqObj, { email: req.body.email }).then(function (result) {
+                            util.sendMail(req.body.email, sub, msg, function (err, success) {
+                                if (err) {
+                                    return resolve(util.responseUtil(err, null, responseConstant.UNABLE_TO_SEND_EMAIL));
+                                } else
+                                    return resolve(util.responseUtil(null, null, responseConstant.SUCCESS));
+                            })
+                        }, function (err) {
+                            return reject(util.responseUtil(null, null, responseConstant.PASSWORD_CHANGE_ERROR));
+                        });
+
                     }, function (err) {
-                        return reject(util.responseUtil(null, null, responseConstant.PASSWORD_CHANGE_ERROR));
+                        return reject(err);
                     });
                 } else {
                     return reject(util.responseUtil(null, null, responseConstant.USER_NOT_FOUND));
                 }
+
             }, function (err) {
                 return reject(err);
             });

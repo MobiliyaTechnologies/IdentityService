@@ -37,8 +37,15 @@ err_obj[constants.USER_NOT_FOUND] = "User not found";
 err_obj[constants.INVALID_VEHICLE] = "Vehicle not found";
 err_obj[constants.FLEET_NOT_FOUND] = "Fleet not found"
 err_obj[constants.INVALID_TOKEN] = "Invalid authorization token";
-err_obj[constants.ERROR_IN_DELETION] = "Error in deleting user";
 err_obj[constants.TENANT_NOT_FOUND] = "Tenant not found";
+err_obj[constants.FLEET_NULL_ERROR] = "Fleet can not be empty";
+err_obj[constants.SUPERADMIN_DELETION_ERROR] = "Super admin might be supervising Tenant, Unable to delete super admin";
+err_obj[constants.TENANT_DELETION_ERROR] = "Tenant admin might be supervising Fleet, Unable to delete tenant admin";
+err_obj[constants.FLEETADMIN_DELETION_ERROR] = "Fleet admin might be supervising Fleet, Driver or Dongle. Unable to delete fleet admin";
+err_obj[constants.DRIVER_DELETION_ERROR] = " Driver might be assigned to vehicle. Unable to delete";
+err_obj[constants.VEHICLE_ASSIGN_ERROR] = " Unable to assign vehicle to driver";
+
+
 
 
 
