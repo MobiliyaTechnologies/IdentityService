@@ -16,6 +16,7 @@ var util = require("../util/commonUtil");
 var responseConstant = require("../constant/responseConstant");
 var logger = require('../util/logger');
 var Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 
 /**
@@ -106,7 +107,7 @@ module.exports = {
                         return resolve({
                             id: result.id, email: result.email, password: result.password, mobileNumber: result.mobileNumber, status: result.status,
                             firstName: result.firstName, lastName: result.lastName, eulaAcceptanceTime: result.eulaAcceptanceTime, roleId: result.roleId,
-                            fleetId: result.fleetId, tenantId: result.tenantId, area: result.area, licenseNumer: result.licenseNumber, isDriverAssign: result.isDriverAssign
+                            fleetId: result.fleetId, tenantId: result.tenantId, area: result.area, licenseNumber: result.licenseNumber, isDriverAssign: result.isDriverAssign
                         })
                     }).catch(function (err) {
                         logger.error(err);
@@ -234,5 +235,36 @@ module.exports = {
             logger.debug("user's login dao finished");
         });
     },
+
+    /**
+* DAO for update driver status
+*/
+    updateManyUserRecords: function (reqObj, reqCondition) {
+        return new Promise(function (resolve, reject) {
+            logger.debug("update status of driver dao strated");
+            db.users.update(reqObj, {
+                where: {
+                    id: {
+                        [Op.in]: reqCondition
+                    }
+                }
+            }).then(
+                function (result) {
+                    return resolve(result);
+                },
+                function (err) {
+                    logger.error(err);
+                    return reject(
+                        util.responseUtil(
+                            err,
+                            null,
+                            responseConstant.SEQUELIZE_DATABASE_ERROR
+                        )
+                    );
+                }
+                );
+            logger.debug("update status of driver dao finished");
+        });
+    }
 
 };

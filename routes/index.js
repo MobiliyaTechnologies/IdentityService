@@ -103,17 +103,18 @@ router.get('/healthcheck', require('express-healthcheck')({
  */
 
 router.post('/login', function (req, res) {
-    req.checkBody('email', 'Email can not be empty').isEmail();
-    req.checkBody('email', 'Invalid email parameter').notEmpty();
+    req.checkBody('email', 'Email can not be empty').notEmpty();
+    req.checkBody('email', 'Invalid email parameter').isEmail()
     req.checkBody('password', 'Password can not be empty').notEmpty();
     var errors = req.validationErrors(true);
-    if (errors || req.body.email && typeof req.body.email !== 'string') {
-        res.status(HttpStatus.BAD_REQUEST).send({ "message": "Invalid Credential.", "error": errors });
+    if (errors) {
+        var err = util.responseUtil(errors, null, responseConstant.INVALID_REQUEST_PARAMETERS);
+        res.status(HttpStatus.UNAUTHORIZED).send(err);
     } else {
         service.fnLogin(req).then(function (result) {
             res.status(HttpStatus.OK).send(result);
         }, function (err) {
-            res.status(HttpStatus.BAD_REQUEST).send(err);
+            res.status(HttpStatus.UNAUTHORIZED).send(err);
         });
     }
 });

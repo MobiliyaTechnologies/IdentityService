@@ -532,4 +532,71 @@ router.delete('/:id', function (req, res) {
     }
 });
 
+//Update Multiple User API
+/**
+ * @api {put} /users/ Update Multilpe User 
+ * @apiVersion 1.0.0
+ * @apiName Update Multiple User
+ * @apiGroup User
+ *
+ * @apiDescription Update Multiple User. 
+ *
+ * @apiHeader {String} Authorization Authorization token.
+ *
+ * @apiExample Example usage:
+ * curl -i -X POST  --data '{"userIdList":["d7ed14a9-df4c-4099-adcd-ec426845374e,d7ed14a9-df4c-4099-adcd-ec426845374e"]}' http://<ip>:<port>/users/
+ * -H "Authorization:<access-token>" -H "Content-Type: application/json" 
+ * 
+* @apiParam {UUID[]} userIdList List of user Id.
+ *
+ *
+ * @apiParamExample {json} Request-Example:
+ *    	{
+ *	         
+ *           "userIdList": ["d7ed14a9-df4c-4099-adcd-ec426845374e,d7ed14a9-df4c-4099-adcd-ec426845374e"]
+ *           
+ *     }
+ *
+ * @apiError BadRequest Invalid request parameters.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *        "message": "Invalid request parameters"
+ *     }
+ * 
+ * @apiError Unauthorized The User token was invalid.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *        "message": "Unauthorized."
+ *     }
+ *
+ * @apiError InternalServerError The Internal Server Error.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *        "message": "InternalServerError"
+ *     }
+ * 
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *      "message": "Success"
+ *   }
+ * }
+ *
+ * @apiSampleRequest http://localhost:3301/users/
+ *
+ */
+router.put('/', function (req, res) {
+    service.updateManyUserRecords(req).then(function (result) {
+        res.status(HttpStatus.OK).send(result);
+    }, function (err) {
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
+    });
+});
 module.exports = router;

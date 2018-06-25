@@ -2632,5 +2632,111 @@
     ],
     "filename": "routes/users.js",
     "groupTitle": "User"
+  },
+  {
+    "type": "put",
+    "url": "/users/",
+    "title": "Update Multilpe User",
+    "version": "1.0.0",
+    "name": "Update_Multiple_User",
+    "group": "User",
+    "description": "<p>Update Multiple User.</p>",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>Authorization token.</p>"
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl -i -X POST  --data '{\"userIdList\":[\"d7ed14a9-df4c-4099-adcd-ec426845374e,d7ed14a9-df4c-4099-adcd-ec426845374e\"]}' http://<ip>:<port>/users/\n-H \"Authorization:<access-token>\" -H \"Content-Type: application/json\"",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "UUID[]",
+            "optional": false,
+            "field": "userIdList",
+            "description": "<p>List of user Id.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "\t{\n       \n       \"userIdList\": [\"d7ed14a9-df4c-4099-adcd-ec426845374e,d7ed14a9-df4c-4099-adcd-ec426845374e\"]\n       \n }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "BadRequest",
+            "description": "<p>Invalid request parameters.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "Unauthorized",
+            "description": "<p>The User token was invalid.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InternalServerError",
+            "description": "<p>The Internal Server Error.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 400 Bad Request\n{\n   \"message\": \"Invalid request parameters\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 401 Unauthorized\n{\n   \"message\": \"Unauthorized.\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Internal Server Error\n{\n   \"message\": \"InternalServerError\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "    HTTP/1.1 200 OK\n    {\n     \"message\": \"Success\"\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3301/users/"
+      }
+    ],
+    "filename": "routes/users.js",
+    "groupTitle": "User"
   }
 ]

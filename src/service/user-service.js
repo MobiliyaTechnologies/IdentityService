@@ -25,14 +25,14 @@ var util = require("../util/commonUtil");
 var jwtKey = config[config.activeEnv].auth;
 config = config[config.activeEnv];
 
-var getVehicleCount = function (req, tenantId, callback) {
+var getVehicleCount = function (req, filter, filterValue, tenantId, callback) {
     return new Promise(function (resolve, reject) {
         var get_data = JSON.stringify({});
         var options = {
             hostname: config.hostname_fleet,
             port: config.port_fleet,
             method: 'GET',
-            path: '/' + tenantId + '/vehicles?userId=' + req.params.id,
+            path: '/' + tenantId + '/vehicles?' + filter + '=' + filterValue,
             headers: {
                 'Authorization': req.headers.authorization,
                 'Content-Type': 'application/json',
@@ -240,21 +240,32 @@ module.exports = {
     getUser: function (req) {
         return new Promise(function (resolve, reject) {
             userDao.getUser({ id: req.params.id, isDeleted: 0 }).then(function (result) {
-                getVehicleCount(req, result.Tenant.id, function (err, vehicleResult) {
-                    if (err) {
-                        return reject(util.responseUtil(null, null, responseConstant.RUN_TIME_ERROR));
-                    } else {
-                        getFleetCount(req, result.Tenant.id, function (err, fleetResult) {
-                            if (err) {
-                                return reject(util.responseUtil(null, null, responseConstant.RUN_TIME_ERROR));
-                            } else {
-                                result.dataValues.vehicleCount = vehicleResult.count;
-                                result.dataValues.fleetCount = fleetResult.count;
-                                return resolve(util.responseUtil(null, result, responseConstant.SUCCESS));
-                            }
-                        });
+                roleDao.getRoleById(result.roleId).then(function (roleResult) {
+                    var filter = 'userId';
+                    var filterValue = result.id;
+                    if (roleResult.roleName === 'fleet admin') {
+                        filter = 'fleetId';
+                        filterValue = result.fleetId;
                     }
-                });
+                    getVehicleCount(req, filter, filterValue, result.Tenant.id, function (err, vehicleResult) {
+                        if (err) {
+                            return reject(util.responseUtil(null, null, responseConstant.RUN_TIME_ERROR));
+                        } else {
+                            getFleetCount(req, result.Tenant.id, function (err, fleetResult) {
+                                if (err) {
+                                    return reject(util.responseUtil(null, null, responseConstant.RUN_TIME_ERROR));
+                                } else {
+                                    result.dataValues.vehicleCount = vehicleResult.count;
+                                    result.dataValues.fleetCount = fleetResult.count;
+                                    return resolve(util.responseUtil(null, result, responseConstant.SUCCESS));
+                                }
+                            });
+                        }
+                    });
+                }
+                    , function (err) {
+                        return reject(err);
+                    });
             }, function (err) {
                 return reject(err);
             });
@@ -411,6 +422,24 @@ module.exports = {
 
         });
     },
+
+    /**
+* Controller function for Update Multiple User Record
+*/
+    updateManyUserRecords: function (req) {
+        return new Promise(function (resolve, reject) {
+            var updateObj = {};
+            updateObj.isDriverAssign = 0;
+            userDao.updateManyUserRecords(updateObj, req.body.userIdList).then(function (result) {
+                return resolve(util.responseUtil(null, result, responseConstant.SUCCESS));
+            }, function (err) {
+                return reject(err);
+            });
+
+
+
+        });
+    }
 }
 
 /**
