@@ -56,6 +56,26 @@ models.forEach(function (model) {
     logger.info("Model :: ", model, module.exports[model]);
     module.exports[model] = sequelize.import('../models/' + model);
 
+    if (model === 'report') {
+        module.exports[model].sync({}).then(() => {
+            var insertReportList = [{ "reportName": "mileage", "reportId": null, "tenantId": null },
+            { "reportName": "rpm", "reportId": null, "tenantId": null },
+            { "reportName": "speed", "reportId": null, "tenantId": null },
+            { "reportName": "fault_codes", "reportId": null, "tenantId": null },
+            { "reportName": "average_mileage", "reportId": null, "tenantId": null }
+            ];
+            return module.exports['report'].bulkCreate(insertReportList).then((result) => {
+                console.log("Report: blank rows created ", result)
+            })
+                .catch(function (err) {
+                    logger.error("Failed to add blank rows in reports table." + err);
+                });
+        }).catch(function (err) {
+            logger.error("Error in report creation", err);
+
+        });
+    }
+
     if (model === 'roles') {
         module.exports[model].sync().then(function () {
             var superAdminRoleId;
