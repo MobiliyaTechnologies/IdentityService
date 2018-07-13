@@ -21,7 +21,7 @@ module.exports = function (sequelize, DataTypes) {
 
             reportId: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
 
             tenantId: {
